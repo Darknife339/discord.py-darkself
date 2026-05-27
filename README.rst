@@ -1,151 +1,58 @@
-discord.py-self
-================
-
-.. image:: https://img.shields.io/endpoint?color=neon&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2Fdpy_self
-   :target: https://t.me/dpy_self
-   :alt: Telegram chat
-.. image:: https://img.shields.io/pypi/v/discord.py-self.svg
-   :target: https://pypi.python.org/pypi/discord.py-self
-   :alt: PyPI version info
-.. image:: https://img.shields.io/pypi/pyversions/discord.py.svg
-   :target: https://pypi.python.org/pypi/discord.py-self
-   :alt: PyPI supported Python versions
-.. image:: https://img.shields.io/pypi/dm/discord.py-self.svg
-   :target: https://pypi.python.org/pypi/discord.py-self
-   :alt: PyPI downloads per month
+discord-py-darkself
+===================
 
 A modern, easy-to-use, feature-rich, and async-ready API wrapper for Discord's user API written in Python.
 
-| **Note:**
-| Automating user accounts is against the Discord ToS. This library is a proof of concept and I cannot recommend using it. Do so at your own risk.
-|
+About the Project
+-----------------
 
-| **Credits:**
+**discord-py-darkself** is a customized fork of the `discord.py-self` library. 
 
-- `Rapptz <https://github.com/Rapptz>`_ for the original library this fork is based on. Without it, the project would not exist.
-- `arandomnewaccount <https://www.reddit.com/user/obviouslymymain123/>`_ for help when the project was first started.
+The primary feature of this fork is the complete isolation of its namespace. In this version, the standard ``discord`` package namespace and all its internal/external imports have been renamed to ``discord_self``.
 
-Key Features
--------------
+This allows you to install and use this library concurrently alongside the official, upstream ``discord.py`` library (used for regular bot accounts) within the same Python environment without experiencing any naming conflicts or dependency collisions.
 
-- Modern Pythonic API using ``async`` and ``await``.
-- Proper rate limit handling.
-- Optimised in both speed and memory.
-- Mostly compatible with the upstream ``discord.py``.
-- Prevents user account automation detection.
-- Implements vast amounts of the user account-specific API. For a non-exhaustive list:
-
-  * Sessions
-  * Read states
-  * Connections
-  * Relationships
-  * Experiments
-  * Protobuf user settings
-  * Application/team management
-  * Store/SKUs/entitlements
-  * Billing (e.g. subscriptions, payments, boosts, promotions, etc.)
-  * Interactions (slash commands, buttons, etc.)
-
-Installing
+How to Use
 ----------
 
-**Python 3.10 or higher is required.**
-
-To install the library without full voice support, you can just run the following command:
-
-.. note::
-
-    A `Virtual Environment <https://docs.python.org/3/library/venv.html>`__ is recommended to install
-    the library, especially on Linux where the system Python is externally managed and restricts which
-    packages you can install on it.
-
-
-.. code:: sh
-
-    # Linux/macOS
-    python3 -m pip install -U discord.py-self
-
-    # Windows
-    py -3 -m pip install -U discord.py-self
-
-Otherwise to get voice support you should run the following command:
-
-.. code:: sh
-
-    # Linux/macOS
-    python3 -m pip install -U "discord.py-self[voice]"
-
-    # Windows
-    py -3 -m pip install -U discord.py-self[voice]
-
-
-To install the development version, do the following:
-
-.. code:: sh
-
-    $ git clone https://github.com/dolfies/discord.py-self
-    $ cd discord.py-self
-    $ python3 -m pip install -U .[voice]
-
-
-Optional Packages
-~~~~~~~~~~~~~~~~~~
-
-* `PyNaCl <https://pypi.org/project/PyNaCl/>`__ (for voice support)
-
-Please note that on Linux installing voice you must install the following packages via your favourite package manager (e.g. ``apt``, ``dnf``, etc) before running the above commands:
-
-* libffi-dev (or ``libffi-devel`` on some systems)
-* python-dev (e.g. ``python3.6-dev`` for Python 3.6)
-
-Using with Upstream
-~~~~~~~~~~~~~~~~~~~~
-
-If you would like to use the library alongside upstream ``discord.py``, you can install ``selfcord.py`` instead of ``discord.py-self``. Check out the `renamed branch <https://github.com/dolfies/discord.py-self/blob/renamed/README.rst>`_ for more information.
-
-Quick Example
---------------
+Instead of using the standard ``discord`` import, use ``discord_self`` and ``discord_self.ext`` for commands and tasks:
 
 .. code:: py
 
-    import discord
+    import discord_self
+    from discord_self.ext import commands
 
-    class MyClient(discord.Client):
-        async def on_ready(self):
-            print('Logged on as', self.user)
+    bot = commands.Bot(command_prefix='!', self_bot=True)
 
-        async def on_message(self, message):
-            # only respond to ourselves
-            if message.author != self.user:
-                return
-
-            if message.content == 'ping':
-                await message.channel.send('pong')
-
-    client = MyClient()
-    client.run('token')
-
-Bot Example
-~~~~~~~~~~~~~
-
-.. code:: py
-
-    import discord
-    from discord.ext import commands
-
-    bot = commands.Bot(command_prefix='>', self_bot=True)
+    @bot.event
+    async def on_ready():
+        print(f'Logged on as {bot.user} (ID: {bot.user.id})')
 
     @bot.command()
     async def ping(ctx):
         await ctx.send('pong')
 
-    bot.run('token')
+    bot.run('YOUR_ACCOUNT_TOKEN_HERE')
 
-You can find more examples in the examples directory.
+Installation
+------------
 
-Links
-------
+**Python 3.10 or higher is required.**
 
-- `Documentation <https://discordpy-self.readthedocs.io/en/latest/index.html>`_
-- `Project updates <https://t.me/dpy_self>`_
-- `Discussion & support <https://t.me/dpy_self_discussions>`_
+You can install the library directly from your GitHub repository using ``pip``:
+
+.. code:: sh
+
+    pip install git+https://github.com/Darknife339/discord.py-darkself.git
+
+If you have cloned the repository locally and wish to install it in editable mode for development:
+
+.. code:: sh
+
+    cd discord.py-darkself
+    pip install -e .
+
+Disclaimer
+----------
+
+Automating user accounts (self-botting) is against the Discord Terms of Service (ToS). This library is a proof of concept and is intended strictly for educational and research purposes. The author of this fork assumes no responsibility for any account terminations or penalties incurred while using this software. Use it entirely at your own risk.
