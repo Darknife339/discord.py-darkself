@@ -419,7 +419,7 @@ class ScheduledEvent(Hashable):
             The name of the scheduled event.
         description: :class:`str`
             The description of the scheduled event.
-        channel: Optional[:class:`~discord.abc.Snowflake`]
+        channel: Optional[:class:`~discord_self.abc.Snowflake`]
             The channel to put the scheduled event in. If the channel is
             a :class:`StageInstance` or :class:`VoiceChannel` then
             it automatically sets the entity type.
@@ -489,7 +489,7 @@ class ScheduledEvent(Hashable):
         if start_time is not MISSING:
             if start_time.tzinfo is None:
                 raise ValueError(
-                    'start_time must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                    'start_time must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                 )
             payload['scheduled_start_time'] = start_time.isoformat()
 
@@ -563,7 +563,7 @@ class ScheduledEvent(Hashable):
             if end_time is not None:
                 if end_time.tzinfo is None:
                     raise ValueError(
-                        'end_time must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                        'end_time must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                     )
                 payload['scheduled_end_time'] = end_time.isoformat()
             else:

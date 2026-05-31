@@ -1212,7 +1212,7 @@ class ApplicationBuild(Hashable):
 
         Parameters
         -----------
-        \*files: :class:`discord.File`
+        \*files: :class:`discord_self.File`
             The files to upload.
         hash: :class:`bool`
             Whether to calculate the MD5 hash of the files before upload.

@@ -218,7 +218,7 @@ def flatten_user(cls: T) -> T:
 
 
 @flatten_user
-class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
+class Member(discord_self.abc.Messageable, discord_self.abc.Connectable, _UserTag):
     """Represents a Discord member to a :class:`Guild`.
 
     This implements a lot of the functionality of :class:`User`.
@@ -447,15 +447,15 @@ class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
         ch = await self.create_dm()
         return ch
 
-    @utils.copy_doc(discord.abc.Connectable.connect)
+    @utils.copy_doc(discord_self.abc.Connectable.connect)
     async def connect(
         self,
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], discord.abc.T] = VoiceClient,
+        cls: Callable[[Client, discord_self.abc.VocalChannel], discord_self.abc.T] = VoiceClient,
         ring: bool = True,
-    ) -> discord.abc.T:
+    ) -> discord_self.abc.T:
         channel = await self._get_channel()
         ret = await super().connect(timeout=timeout, reconnect=reconnect, cls=cls, _channel=channel)
 
@@ -848,7 +848,7 @@ class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
         mute: bool = MISSING,
         deafen: bool = MISSING,
         suppress: bool = MISSING,
-        roles: Collection[discord.abc.Snowflake] = MISSING,
+        roles: Collection[discord_self.abc.Snowflake] = MISSING,
         voice_channel: Optional[VocalGuildChannel] = MISSING,
         timed_out_until: Optional[datetime.datetime] = MISSING,
         avatar: Optional[bytes] = MISSING,
@@ -1013,7 +1013,7 @@ class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
             else:
                 if timed_out_until.tzinfo is None:
                     raise TypeError(
-                        'timed_out_until must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                        'timed_out_until must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                     )
                 payload['communication_disabled_until'] = timed_out_until.isoformat()
 

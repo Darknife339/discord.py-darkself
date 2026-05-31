@@ -50,18 +50,18 @@ from ._types import BotT
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec, TypeGuard
 
-    from discord.abc import MessageableChannel
+    from discord_self.abc import MessageableChannel
     from discord.commands import MessageCommand
-    from discord.file import _FileBase
-    from discord.guild import Guild
-    from discord.member import Member
-    from discord.mentions import AllowedMentions
-    from discord.message import MessageReference, PartialMessage
-    from discord.poll import Poll
-    from discord.state import ConnectionState
-    from discord.sticker import GuildSticker, StickerItem
-    from discord.user import ClientUser, User
-    from discord.voice_client import VoiceProtocol
+    from discord_self.file import _FileBase
+    from discord_self.guild import Guild
+    from discord_self.member import Member
+    from discord_self.mentions import AllowedMentions
+    from discord_self.message import MessageReference, PartialMessage
+    from discord_self.poll import Poll
+    from discord_self.state import ConnectionState
+    from discord_self.sticker import GuildSticker, StickerItem
+    from discord_self.user import ClientUser, User
+    from discord_self.voice_client import VoiceProtocol
 
     from .cog import Cog
     from .core import Command
@@ -88,14 +88,14 @@ def is_cog(obj: Any) -> TypeGuard[Cog]:
     return hasattr(obj, '__cog_commands__')
 
 
-class Context(discord.abc.Messageable, Generic[BotT]):
+class Context(discord_self.abc.Messageable, Generic[BotT]):
     r"""Represents the context in which a command is being invoked under.
 
     This class contains a lot of meta data to help you understand more about
     the invocation context. This class is not created manually and is instead
     passed around to commands as the first parameter.
 
-    This class implements the :class:`~discord.abc.Messageable` ABC.
+    This class implements the :class:`~discord_self.abc.Messageable` ABC.
 
     Attributes
     -----------
@@ -287,7 +287,7 @@ class Context(discord.abc.Messageable, Generic[BotT]):
         """:class:`bool`: Checks if the invocation context is valid to be invoked with."""
         return self.prefix is not None and self.command is not None
 
-    async def _get_channel(self) -> discord.abc.Messageable:
+    async def _get_channel(self) -> discord_self.abc.Messageable:
         return self.channel
 
     @property
@@ -321,28 +321,28 @@ class Context(discord.abc.Messageable, Generic[BotT]):
 
         .. versionadded:: 2.1
         """
-        return self.guild.filesize_limit if self.guild is not None else discord.utils.DEFAULT_FILE_SIZE_LIMIT_BYTES
+        return self.guild.filesize_limit if self.guild is not None else discord_self.utils.DEFAULT_FILE_SIZE_LIMIT_BYTES
 
-    @discord.utils.cached_property
+    @discord_self.utils.cached_property
     def guild(self) -> Optional[Guild]:
         """Optional[:class:`.Guild`]: Returns the guild associated with this context's command. None if not available."""
         return self.message.guild
 
-    @discord.utils.cached_property
+    @discord_self.utils.cached_property
     def channel(self) -> MessageableChannel:
         """Union[:class:`.abc.Messageable`]: Returns the channel associated with this context's command.
         Shorthand for :attr:`.Message.channel`.
         """
         return self.message.channel
 
-    @discord.utils.cached_property
+    @discord_self.utils.cached_property
     def author(self) -> Union[User, Member]:
-        """Union[:class:`~discord.User`, :class:`.Member`]:
+        """Union[:class:`~discord_self.User`, :class:`.Member`]:
         Returns the author associated with this context's command. Shorthand for :attr:`.Message.author`
         """
         return self.message.author
 
-    @discord.utils.cached_property
+    @discord_self.utils.cached_property
     def me(self) -> Union[Member, ClientUser]:
         """Union[:class:`.Member`, :class:`.ClientUser`]:
         Similar to :attr:`.Guild.me` except it may return the :class:`.ClientUser` in private message contexts.
@@ -514,19 +514,19 @@ class Context(discord.abc.Messageable, Generic[BotT]):
         poll: Poll = ...,
     ) -> Message: ...
 
-    @discord.utils.copy_doc(Message.reply)
+    @discord_self.utils.copy_doc(Message.reply)
     async def reply(self, content: Optional[str] = None, **kwargs: Any) -> Message:
         return await self.message.reply(content, **kwargs)
 
-    @discord.utils.deprecated('Context.application_commands')
-    @discord.utils.copy_doc(Message.message_commands)
+    @discord_self.utils.deprecated('Context.application_commands')
+    @discord_self.utils.copy_doc(Message.message_commands)
     def message_commands(
         self,
         query: Optional[str] = None,
         *,
         limit: Optional[int] = None,
         command_ids: Optional[Collection[int]] = None,
-        application: Optional[discord.abc.Snowflake] = None,
+        application: Optional[discord_self.abc.Snowflake] = None,
         with_applications: bool = True,
     ) -> AsyncIterator[MessageCommand]:
         return self.message.message_commands(

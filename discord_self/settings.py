@@ -1373,7 +1373,7 @@ class GuildFolder:
         elif isinstance(value, int):
             self._colour = value
         else:
-            raise TypeError(f'Expected discord.Colour, int, or None but received {value.__class__.__name__} instead.')
+            raise TypeError(f'Expected discord_self.Colour, int, or None but received {value.__class__.__name__} instead.')
 
     @property
     def color(self) -> Optional[Colour]:
@@ -1766,11 +1766,11 @@ class LegacyUserSettings:
 
         Parameters
         ----------
-        activity_restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        activity_restricted_guilds: List[:class:`~discord_self.abc.Snowflake`]
             A list of guilds that your current activity will not be shown in.
 
             .. versionadded:: 2.0
-        activity_joining_restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        activity_joining_restricted_guilds: List[:class:`~discord_self.abc.Snowflake`]
             A list of guilds that will not be able to join your current activity.
 
             .. versionadded:: 2.0
@@ -1825,7 +1825,7 @@ class LegacyUserSettings:
             Whether to render embeds that are sent in the chat.
         render_reactions: :class:`bool`
             Whether to render reactions that are added to messages.
-        restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        restricted_guilds: List[:class:`~discord_self.abc.Snowflake`]
             A list of guilds that you will not receive DMs from.
         show_current_game: :class:`bool`
             Whether to display the game that you are currently playing.
@@ -2091,7 +2091,7 @@ class ChannelSettings:
                 else:
                     if muted_until.tzinfo is None:
                         raise TypeError(
-                            'muted_until must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                            'muted_until must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                         )
 
                     mute_config = {
@@ -2257,7 +2257,7 @@ class GuildSettings:
                 if muted_until is not True:
                     if muted_until.tzinfo is None:
                         raise TypeError(
-                            'muted_until must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                            'muted_until must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                         )
 
                     mute_config = {

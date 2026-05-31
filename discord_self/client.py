@@ -337,7 +337,7 @@ class Client:
     max_ratelimit_timeout: Optional[:class:`float`]
         The maximum number of seconds to wait when a non-global rate limit is encountered.
         If a request requires sleeping for more than the seconds passed in, then
-        :exc:`~discord.RateLimited` will be raised. By default, there is no timeout limit.
+        :exc:`~discord_self.RateLimited` will be raised. By default, there is no timeout limit.
         In order to prevent misuse and unnecessary bans, the minimum value this can be
         set to is ``30.0`` seconds.
 
@@ -830,7 +830,7 @@ class Client:
     ) -> asyncio.Task:
         wrapped = self._run_event(coro, event_name, *args, **kwargs)
         # Schedules the task
-        return self.loop.create_task(wrapped, name=f'discord.py: {event_name}')
+        return self.loop.create_task(wrapped, name=f'discord_self.py: {event_name}')
 
     def dispatch(self, event: str, /, *args: Any, **kwargs: Any) -> None:
         _log.debug('Dispatching event %s.', event)
@@ -879,7 +879,7 @@ class Client:
 
         By default this logs to the library logger however it could be
         overridden to have a different implementation.
-        Check :func:`~discord.on_error` for more details.
+        Check :func:`~discord_self.on_error` for more details.
 
         .. versionchanged:: 2.0
 
@@ -996,11 +996,11 @@ class Client:
 
         Example: ::
 
-            class MyClient(discord.Client):
+            class MyClient(discord_self.Client):
                 async def headers_context(self):
                     async with aiohttp.ClientSession() as session:
                         # We want the desktop client context
-                        return await discord.HeadersContext.desktop(session)
+                        return await discord_self.HeadersContext.desktop(session)
 
         Returns
         --------
@@ -1031,7 +1031,7 @@ class Client:
 
         This is only called once, in :meth:`login`, and will be called before
         any events are dispatched, making it a better solution than doing such
-        setup in the :func:`~discord.on_ready` event.
+        setup in the :func:`~discord_self.on_ready` event.
 
         .. warning::
 
@@ -1562,7 +1562,7 @@ class Client:
 
     @property
     def allowed_mentions(self) -> Optional[AllowedMentions]:
-        """Optional[:class:`~discord.AllowedMentions`]: The allowed mention configuration.
+        """Optional[:class:`~discord_self.AllowedMentions`]: The allowed mention configuration.
 
         .. versionadded:: 1.4
         """
@@ -1579,7 +1579,7 @@ class Client:
 
     @property
     def users(self) -> List[User]:
-        """List[:class:`~discord.User`]: Returns a list of all the users the current user can see."""
+        """List[:class:`~discord_self.User`]: Returns a list of all the users the current user can see."""
         return list(self._connection._users.values())
 
     def get_channel(self, id: int, /) -> Optional[Union[GuildChannel, Thread, PrivateChannel]]:
@@ -1619,8 +1619,8 @@ class Client:
             The optional guild ID to create a partial messageable for.
 
             This is not required to actually send messages, but it does allow the
-            :meth:`~discord.PartialMessageable.jump_url` and
-            :attr:`~discord.PartialMessageable.guild` properties to function properly.
+            :meth:`~discord_self.PartialMessageable.jump_url` and
+            :attr:`~discord_self.PartialMessageable.guild` properties to function properly.
         type: Optional[:class:`.ChannelType`]
             The underlying channel type for the partial messageable.
 
@@ -1686,7 +1686,7 @@ class Client:
 
         Returns
         --------
-        Optional[:class:`~discord.User`]
+        Optional[:class:`~discord_self.User`]
             The user or ``None`` if not found.
         """
         return self._connection.get_user(id)
@@ -1968,8 +1968,8 @@ class Client:
 
         .. code-block:: python3
 
-            game = discord.Activity(name="with the API")
-            await client.change_presence(status=discord.Status.idle, activity=game)
+            game = discord_self.Activity(name="with the API")
+            await client.change_presence(status=discord_self.Status.idle, activity=game)
 
         Parameters
         ----------
@@ -2080,7 +2080,7 @@ class Client:
 
         Parameters
         -----------
-        channel: Optional[:class:`~discord.abc.Snowflake`]
+        channel: Optional[:class:`~discord_self.abc.Snowflake`]
             Channel the client wants to join (must be a private channel). Use ``None`` to disconnect.
         self_mute: :class:`bool`
             Indicates if the client should be self-muted.
@@ -2131,12 +2131,12 @@ class Client:
     async def fetch_template(self, code: Union[Template, str]) -> Template:
         """|coro|
 
-        Gets a :class:`.Template` from a discord.new URL or code.
+        Gets a :class:`.Template` from a discord_self.new URL or code.
 
         Parameters
         -----------
         code: Union[:class:`.Template`, :class:`str`]
-            The Discord Template Code or URL (must be a discord.new URL).
+            The Discord Template Code or URL (must be a discord_self.new URL).
 
         Raises
         -------
@@ -2330,7 +2330,7 @@ class Client:
 
         Parameters
         -----------
-        guild: :class:`~discord.abc.Snowflake`
+        guild: :class:`~discord_self.abc.Snowflake`
             The guild to leave.
         lurking: :class:`bool`
             Whether you are lurking the guild.
@@ -2663,7 +2663,7 @@ class Client:
     async def fetch_user(self, user_id: int, /) -> User:
         """|coro|
 
-        Retrieves a :class:`discord.User` based on their ID.
+        Retrieves a :class:`discord_self.User` based on their ID.
         You do not have to share any guilds with the user to get
         this information, however many operations do require that you do.
 
@@ -2689,7 +2689,7 @@ class Client:
 
         Returns
         --------
-        :class:`discord.User`
+        :class:`discord_self.User`
             The user you requested.
         """
         data = await self.http.get_user(user_id)
@@ -3382,7 +3382,7 @@ class Client:
 
         Parameters
         -----------
-        user: :class:`~discord.abc.Snowflake`
+        user: :class:`~discord_self.abc.Snowflake`
             The user to create a DM with.
 
         Returns
@@ -3409,8 +3409,8 @@ class Client:
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
-            An argument :class:`list` of :class:`discord.User` to have in
+        \*recipients: :class:`~discord_self.abc.Snowflake`
+            An argument :class:`list` of :class:`discord_self.User` to have in
             your group.
 
         Raises
@@ -3467,7 +3467,7 @@ class Client:
 
         Parameters
         -----------
-        user: Union[:class:`discord.User`, :class:`str`]
+        user: Union[:class:`discord_self.User`, :class:`str`]
             The user to send the friend request to.
         username: :class:`str`
             The username of the user to send the friend request to.
@@ -3768,7 +3768,7 @@ class Client:
         ----------
         name: :class:`str`
             The name of the application.
-        team: :class:`~discord.abc.Snowflake`
+        team: :class:`~discord_self.abc.Snowflake`
             The team to create the application under.
 
         Raises
@@ -4322,11 +4322,11 @@ class Client:
             The number of payments to retrieve.
             If ``None``, retrieves every payment you have made. Note, however,
             that this would make it a slow operation.
-        before: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        before: Optional[Union[:class:`~discord_self.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve payments before this date or payment.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
-        after: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        after: Optional[Union[:class:`~discord_self.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve messages after this date or payment.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
@@ -5418,7 +5418,7 @@ class Client:
             The number of messages to retrieve.
             If ``None``, retrieves every recent mention received in the past week. Note, however,
             that this would make it a slow operation.
-        before: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        before: Optional[Union[:class:`~discord_self.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve messages before this date or message.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
@@ -5579,7 +5579,7 @@ class Client:
 
         Returns
         -------
-        List[:class:`discord.User`]
+        List[:class:`discord_self.User`]
             The users who share a premium subscription with the current user.
         """
         state = self._connection
@@ -5888,7 +5888,7 @@ class Client:
         """|coro|
 
         Gets the suggested pomelo username for your account.
-        This username can be used with :meth:`~discord.ClientUser.edit` to migrate your account
+        This username can be used with :meth:`~discord_self.ClientUser.edit` to migrate your account
         to Discord's `new unique username system <https://discord.com/blog/usernames>`_
 
         .. note::

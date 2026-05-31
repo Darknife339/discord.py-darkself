@@ -174,7 +174,7 @@ class ThreadWithMessage(NamedTuple):
     message: Message
 
 
-class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
+class TextChannel(discord_self.abc.Messageable, discord_self.abc.GuildChannel, Hashable):
     """Represents a Discord guild text channel.
 
     .. container:: operations
@@ -302,7 +302,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
     def _scheduled_event_entity_type(self) -> Optional[EntityType]:
         return None
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(discord_self.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -529,7 +529,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -657,7 +657,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
         List[:class:`.Message`]
             The list of messages that were deleted.
         """
-        return await discord.abc._purge_helper(
+        return await discord_self.abc._purge_helper(
             self,
             limit=limit,
             check=check,
@@ -851,8 +851,8 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
 
         Creates a thread in this text channel.
 
-        To create a public thread, you must have :attr:`~discord.Permissions.create_public_threads`.
-        For a private thread, :attr:`~discord.Permissions.create_private_threads` is needed instead.
+        To create a public thread, you must have :attr:`~discord_self.Permissions.create_public_threads`.
+        For a private thread, :attr:`~discord_self.Permissions.create_private_threads` is needed instead.
 
         .. versionadded:: 2.0
 
@@ -1016,7 +1016,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
             before_timestamp = update_before(threads[-1])
 
 
-class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.GuildChannel, Hashable):
+class VocalGuildChannel(discord_self.abc.Messageable, discord_self.abc.Connectable, discord_self.abc.GuildChannel, Hashable):
     __slots__ = (
         'name',
         'id',
@@ -1118,7 +1118,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         """
         return [event for event in self.guild.scheduled_events if event.channel_id == self.id]
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(discord_self.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -1349,7 +1349,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         List[:class:`.Message`]
             The list of messages that were deleted.
         """
-        return await discord.abc._purge_helper(
+        return await discord_self.abc._purge_helper(
             self,
             limit=limit,
             check=check,
@@ -1425,7 +1425,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         data = await self._state.http.create_webhook(self.id, name=str(name), avatar=avatar, reason=reason)
         return Webhook.from_state(data, state=self._state)
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(self, *, name: Optional[str] = None, reason: Optional[str] = None) -> Self:
         base = {
             'bitrate': self.bitrate,
@@ -1541,7 +1541,7 @@ class VoiceChannel(VocalGuildChannel):
         """:class:`ChannelType`: The channel's Discord type."""
         return ChannelType.voice
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -1795,7 +1795,7 @@ class StageChannel(VocalGuildChannel):
         """:class:`ChannelType`: The channel's Discord type."""
         return ChannelType.stage_voice
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -1839,7 +1839,7 @@ class StageChannel(VocalGuildChannel):
         send_start_notification: :class:`bool`
             Whether to send a start notification. This sends a push notification to @everyone if ``True``. Defaults to ``False``.
             You must have :attr:`~Permissions.mention_everyone` to do this.
-        scheduled_event: :class:`~discord.abc.Snowflake`
+        scheduled_event: :class:`~discord_self.abc.Snowflake`
             The guild scheduled event associated with the stage instance.
 
             .. versionadded:: 2.1
@@ -1995,7 +1995,7 @@ class StageChannel(VocalGuildChannel):
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
 
-class CategoryChannel(discord.abc.GuildChannel, Hashable):
+class CategoryChannel(discord_self.abc.GuildChannel, Hashable):
     """Represents a Discord channel category.
 
     These are useful to group channels to logical compartments.
@@ -2072,7 +2072,7 @@ class CategoryChannel(discord.abc.GuildChannel, Hashable):
         """:class:`bool`: Checks if the category is NSFW."""
         return self.nsfw
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -2153,7 +2153,7 @@ class CategoryChannel(discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.move)
+    @utils.copy_doc(discord_self.abc.GuildChannel.move)
     async def move(self, **kwargs: Any) -> None:
         kwargs.pop('category', None)
         await super().move(**kwargs)
@@ -2464,7 +2464,7 @@ class ForumTag(Hashable):
         await self._state.http.delete_forum_tag(self._channel_id, self.id)
 
 
-class ForumChannel(discord.abc.GuildChannel, Hashable):
+class ForumChannel(discord_self.abc.GuildChannel, Hashable):
     """Represents a Discord guild forum channel.
 
     .. container:: operations
@@ -2626,7 +2626,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
         """
         return [m for m in self.guild.members if self.permissions_for(m).read_messages]
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(discord_self.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -2700,7 +2700,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
         """
         return self._type == ChannelType.media.value
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -2958,7 +2958,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
         Creates a thread in this forum.
 
         This thread is a public thread with the initial message given. Currently in order
-        to start a thread in this forum, the user needs :attr:`~discord.Permissions.send_messages`.
+        to start a thread in this forum, the user needs :attr:`~discord_self.Permissions.send_messages`.
 
         You must send at least one of ``content``, ``embed``, ``embeds``, ``file``, ``files``,
         or ``view`` to create a thread in a forum, since forum channels must have a starter message.
@@ -2980,22 +2980,22 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
             The content of the message to send with the thread.
         tts: :class:`bool`
             Indicates if the message should be sent using text-to-speech.
-        file: :class:`~discord.File`
+        file: :class:`~discord_self.File`
             The file to upload.
-        files: List[:class:`~discord.File`]
+        files: List[:class:`~discord_self.File`]
             A list of files to upload. Must be a maximum of 10.
-        allowed_mentions: :class:`~discord.AllowedMentions`
+        allowed_mentions: :class:`~discord_self.AllowedMentions`
             Controls the mentions being processed in this message. If this is
-            passed, then the object is merged with :attr:`~discord.Client.allowed_mentions`.
+            passed, then the object is merged with :attr:`~discord_self.Client.allowed_mentions`.
             The merging behaviour only overrides attributes that have been explicitly passed
-            to the object, otherwise it uses the attributes set in :attr:`~discord.Client.allowed_mentions`.
-            If no object is passed at all then the defaults given by :attr:`~discord.Client.allowed_mentions`
+            to the object, otherwise it uses the attributes set in :attr:`~discord_self.Client.allowed_mentions`.
+            If no object is passed at all then the defaults given by :attr:`~discord_self.Client.allowed_mentions`
             are used instead.
         mention_author: :class:`bool`
-            If set, overrides the :attr:`~discord.AllowedMentions.replied_user` attribute of ``allowed_mentions``.
-        applied_tags: List[:class:`discord.ForumTag`]
+            If set, overrides the :attr:`~discord_self.AllowedMentions.replied_user` attribute of ``allowed_mentions``.
+        applied_tags: List[:class:`discord_self.ForumTag`]
             A list of tags to apply to the thread.
-        stickers: Sequence[Union[:class:`~discord.GuildSticker`, :class:`~discord.StickerItem`]]
+        stickers: Sequence[Union[:class:`~discord_self.GuildSticker`, :class:`~discord_self.StickerItem`]]
             A list of stickers to upload. Must be a maximum of 3.
         suppress_embeds: :class:`bool`
             Whether to suppress embeds for the message. This sends the message without any embeds if set to ``True``.
@@ -3197,7 +3197,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
             before_timestamp = update_before(threads[-1])
 
 
-class DirectoryChannel(discord.abc.GuildChannel, Hashable):
+class DirectoryChannel(discord_self.abc.GuildChannel, Hashable):
     """Represents a directory channel.
 
     These channels hold entries for guilds attached to a directory (such as a Student Hub).
@@ -3294,7 +3294,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
     def _scheduled_event_entity_type(self) -> Optional[EntityType]:
         return None
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(discord_self.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -3399,7 +3399,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(discord_self.abc.GuildChannel.clone)
     async def clone(self, *, name: Optional[str] = None, reason: Optional[str] = None) -> DirectoryChannel:
         return await self._clone_impl({'topic': self.topic}, name=name, reason=reason)
 
@@ -3596,7 +3596,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
         return DirectoryEntry(state=state, data=data, channel=self)
 
 
-class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.PrivateChannel, Hashable):
+class DMChannel(discord_self.abc.Messageable, discord_self.abc.Connectable, discord_self.abc.PrivateChannel, Hashable):
     """Represents a Discord direct message channel.
 
     .. container:: operations
@@ -3886,7 +3886,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
 
         Parameters
         -----------
-        obj: :class:`~discord.abc.Snowflake`
+        obj: :class:`~discord_self.abc.Snowflake`
             The user to check permissions for. This parameter is ignored
             but kept for compatibility with other ``permissions_for`` methods.
 
@@ -3912,7 +3912,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~discord_self.abc.Snowflake`
             An argument list of users to add to this group.
 
         Raises
@@ -3986,12 +3986,12 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], T] = VoiceClient,
+        cls: Callable[[Client, discord_self.abc.VocalChannel], T] = VoiceClient,
         ring: bool = True,
     ) -> T:
         """|coro|
 
-        Connects to voice and creates a :class:`~discord.VoiceClient` to establish
+        Connects to voice and creates a :class:`~discord_self.VoiceClient` to establish
         your connection to the voice server.
 
         Parameters
@@ -4002,9 +4002,9 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
             Whether the bot should automatically attempt
             a reconnect if a part of the handshake fails
             or the gateway goes down.
-        cls: Type[:class:`~discord.VoiceProtocol`]
-            A type that subclasses :class:`~discord.VoiceProtocol` to connect with.
-            Defaults to :class:`~discord.VoiceClient`.
+        cls: Type[:class:`~discord_self.VoiceProtocol`]
+            A type that subclasses :class:`~discord_self.VoiceProtocol` to connect with.
+            Defaults to :class:`~discord_self.VoiceClient`.
         ring: :class:`bool`
             Whether to ring the other member(s) to join the call, if starting a new call.
             Defaults to ``True``.
@@ -4013,14 +4013,14 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
         -------
         asyncio.TimeoutError
             Could not connect to the voice channel in time.
-        ~discord.ClientException
+        ~discord_self.ClientException
             You are already connected to a voice channel.
-        ~discord.opus.OpusNotLoaded
+        ~discord_self.opus.OpusNotLoaded
             The opus library has not been loaded.
 
         Returns
         --------
-        :class:`~discord.VoiceProtocol`
+        :class:`~discord_self.VoiceProtocol`
             A voice client that is fully connected to the voice server.
         """
         ret = await super().connect(timeout=timeout, reconnect=reconnect, cls=cls)
@@ -4065,7 +4065,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
         await self._state.http.decline_message_request(self.id)
 
 
-class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.PrivateChannel, Hashable):
+class GroupChannel(discord_self.abc.Messageable, discord_self.abc.Connectable, discord_self.abc.PrivateChannel, Hashable):
     """Represents a Discord group channel.
 
     .. container:: operations
@@ -4396,7 +4396,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        obj: :class:`~discord.abc.Snowflake`
+        obj: :class:`~discord_self.abc.Snowflake`
             The user to check permissions for.
 
         Returns
@@ -4430,11 +4430,11 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~discord_self.abc.Snowflake`
             An argument list of users to add to this group.
             If the user is of type :class:`Object`, then the ``nick`` attribute
             is used as the nickname for the added recipient.
-        nicks: Optional[Mapping[:class:`~discord.abc.Snowflake`, :class:`str`]]
+        nicks: Optional[Mapping[:class:`~discord_self.abc.Snowflake`, :class:`str`]]
             A mapping of user IDs to nicknames to use for the added recipients.
 
             .. versionadded:: 2.0
@@ -4458,7 +4458,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~discord_self.abc.Snowflake`
             An argument list of users to remove from this group.
 
         Raises
@@ -4494,7 +4494,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         icon: Optional[:class:`bytes`]
             A :term:`py:bytes-like object` representing the new icon.
             Could be ``None`` to remove the icon.
-        owner: :class:`~discord.abc.Snowflake`
+        owner: :class:`~discord_self.abc.Snowflake`
             The new owner of the group.
 
             .. versionadded:: 2.0
@@ -4616,7 +4616,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], T] = VoiceClient,
+        cls: Callable[[Client, discord_self.abc.VocalChannel], T] = VoiceClient,
         ring: bool = True,
     ) -> T:
         ret = await super().connect(timeout=timeout, reconnect=reconnect, cls=cls)
@@ -4626,7 +4626,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         return ret
 
 
-class PartialMessageable(discord.abc.Messageable, Hashable):
+class PartialMessageable(discord_self.abc.Messageable, Hashable):
     """Represents a partial messageable to aid with working messageable channels when
     only a channel ID is present.
 

@@ -112,7 +112,7 @@ class DisplayNameStyle:
     def __init__(self, *, data: DisplayNameStylePayload) -> None:
         self.font: NameFont = try_enum(NameFont, data['font_id'])
         self.effect: NameEffect = try_enum(NameEffect, data['effect_id'])
-        self.colors: List[discord.Colour] = [discord.Colour(color) for color in data.get('colors', [])]
+        self.colors: List[discord_self.Colour] = [discord_self.Colour(color) for color in data.get('colors', [])]
 
     def __repr__(self) -> str:
         return f'<DisplayNameStyle font={self.font} effect={self.effect} colors={self.colors}>'
@@ -815,7 +815,7 @@ class ClientUser(BaseUser):
         bio: Optional[str] = MISSING,
         date_of_birth: datetime.date = MISSING,
         pomelo: bool = MISSING,
-        primary_guild: Optional[discord.abc.Snowflake] = MISSING,
+        primary_guild: Optional[discord_self.abc.Snowflake] = MISSING,
     ) -> ClientUser:
         """|coro|
 
@@ -893,14 +893,14 @@ class ClientUser(BaseUser):
             The new global display name you wish to change to.
 
             .. versionadded:: 2.1
-        primary_guild: Optional[:class:`discord.abc.Snowflake`]
-            A :class:`discord.abc.Snowflake` object representing the primary guild to set on your profile.
+        primary_guild: Optional[:class:`discord_self.abc.Snowflake`]
+            A :class:`discord_self.abc.Snowflake` object representing the primary guild to set on your profile.
 
             The behaviour of this parameters is as follows:
 
             - If a :class:`PrimaryGuild` object is passed, then the guild ID and whether the identity is
                 enabled are taken from that object.
-            - If a :class:`discord.abc.Snowflake` object is passed, then the guild ID is taken from that
+            - If a :class:`discord_self.abc.Snowflake` object is passed, then the guild ID is taken from that
                 object and the identity is enabled.
             - If ``None`` is passed, then the primary guild is removed and the identity is disabled.
 
@@ -918,7 +918,7 @@ class ClientUser(BaseUser):
             `house` field was not a :class:`HypeSquadHouse`.
             `date_of_birth` field was not a :class:`datetime.date`.
             `accent_colo(u)r` parameter was not a :class:`Colour`.
-            `primary_guild` parameter was not a :class:`discord.abc.Snowflake`.
+            `primary_guild` parameter was not a :class:`discord_self.abc.Snowflake`.
 
         Returns
         ---------
@@ -1013,7 +1013,7 @@ class ClientUser(BaseUser):
             if primary_guild is None:
                 primary_guild_id = None
                 primary_guild_enabled = False
-            elif not isinstance(primary_guild, discord.abc.Snowflake):
+            elif not isinstance(primary_guild, discord_self.abc.Snowflake):
                 raise ValueError('`primary_guild` parameter was not an abc.Snowflake')
             else:
                 primary_guild_id = primary_guild.id
@@ -1033,7 +1033,7 @@ class ClientUser(BaseUser):
         return self.__class__(state=self._state, data=data)  # type: ignore # ???
 
 
-class User(BaseUser, discord.abc.Connectable, discord.abc.Messageable):
+class User(BaseUser, discord_self.abc.Connectable, discord_self.abc.Messageable):
     """Represents a Discord user.
 
     .. container:: operations
@@ -1147,7 +1147,7 @@ class User(BaseUser, discord.abc.Connectable, discord.abc.Messageable):
         """Optional[:class:`PrivateCall`]: Returns the call associated with this user if it exists."""
         return getattr(self.dm_channel, 'call', None)
 
-    @copy_doc(discord.abc.Connectable.connect)
+    @copy_doc(discord_self.abc.Connectable.connect)
     async def connect(
         self,
         *,

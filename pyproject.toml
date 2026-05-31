@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "discord-py-darkself"
-version = "1.0.0"
+version = "1.0.4"
 description = "A Python wrapper for the Discord user API (Custom DarkSelf Fork)"
 readme = { file = "README.rst", content-type = "text/x-rst" }
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
-authors = [{ name = "Tecno", email = "your_email@example.com" }]
+authors = [{ name = "Darknife", email = "stepansergienko42@gmail.com" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
@@ -30,9 +30,7 @@ classifiers = [
 dynamic = ["dependencies"]
 
 [project.urls]
-"Issue tracker" = "https://github.com/dolfies/discord.py-self/issues"
-"Project updates" = "https://t.me/dpy_self"
-"Discussion & support" = "https://t.me/dpy_self_discussions"
+"Issue tracker" = "https://github.com/Darknife339/discord.py-darkself/issues"
 
 [tool.setuptools.dynamic]
 dependencies = { file = "requirements.txt" }

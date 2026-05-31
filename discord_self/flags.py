@@ -1672,7 +1672,7 @@ class ActivityFlags(BaseFlags):
 
 @fill_with_flags()
 class ChannelFlags(BaseFlags):
-    r"""Wraps up the Discord :class:`~discord.abc.GuildChannel` or :class:`Thread` flags.
+    r"""Wraps up the Discord :class:`~discord_self.abc.GuildChannel` or :class:`Thread` flags.
 
     .. container:: operations
 
@@ -2988,7 +2988,7 @@ class MemberFlags(BaseFlags):
 
     @flag_value
     def did_rejoin(self):
-        """:class:`bool`: Returns ``True`` if the member left and rejoined the :attr:`~discord.Member.guild`."""
+        """:class:`bool`: Returns ``True`` if the member left and rejoined the :attr:`~discord_self.Member.guild`."""
         return 1 << 0
 
     @flag_value
@@ -3185,7 +3185,7 @@ class InviteFlags(BaseFlags):
 
     @flag_value
     def application_bypass(self):
-        """:class:`bool`: Returns ``True`` if the invite bypasses guild join requests and adds the user directly to the guild with :attr:`discord.Member.pending` set to ``False``."""
+        """:class:`bool`: Returns ``True`` if the invite bypasses guild join requests and adds the user directly to the guild with :attr:`discord_self.Member.pending` set to ``False``."""
         return 1 << 3
 
 

@@ -356,7 +356,7 @@ class Embed:
         elif isinstance(value, int):
             self._colour = Colour(value=value)
         else:
-            raise TypeError(f'Expected discord.Colour, int, or None but received {value.__class__.__name__} instead.')
+            raise TypeError(f'Expected discord_self.Colour, int, or None but received {value.__class__.__name__} instead.')
 
     color = colour
 

@@ -1610,8 +1610,8 @@ class Guild(Hashable):
         .. code-block:: python3
 
             overwrites = {
-                guild.default_role: discord.PermissionOverwrite(read_messages=False),
-                guild.me: discord.PermissionOverwrite(read_messages=True)
+                guild.default_role: discord_self.PermissionOverwrite(read_messages=False),
+                guild.me: discord_self.PermissionOverwrite(read_messages=True)
             }
 
             channel = await guild.create_text_channel('secret', overwrites=overwrites)
@@ -2577,7 +2577,7 @@ class Guild(Hashable):
             else:
                 if invites_disabled_until.tzinfo is None:
                     raise TypeError(
-                        'invites_disabled_until must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                        'invites_disabled_until must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                     )
                 incident_actions_payload['invites_disabled_until'] = invites_disabled_until.isoformat()
 
@@ -2587,7 +2587,7 @@ class Guild(Hashable):
             else:
                 if dms_disabled_until.tzinfo is None:
                     raise TypeError(
-                        'dms_disabled_until must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                        'dms_disabled_until must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                     )
                 incident_actions_payload['dms_disabled_until'] = dms_disabled_until.isoformat()
 
@@ -3012,7 +3012,7 @@ class Guild(Hashable):
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
         nsfw_allowed: :class:`bool`
-            Whether to include messages from NSFW channels. Defaults to :attr:`~discord.ClientUser.nsfw_allowed`.
+            Whether to include messages from NSFW channels. Defaults to :attr:`~discord_self.ClientUser.nsfw_allowed`.
         channels: List[Union[:class:`abc.GuildChannel`, :class:`abc.PrivateChannel`, :class:`Thread`]]
             The channels to filter by.
         authors: List[:class:`User`]
@@ -3052,7 +3052,7 @@ class Guild(Hashable):
 
         Raises
         ------
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             The request to search messages failed.
         TypeError
             Provided both ``before`` and ``after`` when ``most_relevant`` is set.
@@ -3790,7 +3790,7 @@ class Guild(Hashable):
 
         if start_time.tzinfo is None:
             raise ValueError(
-                'start_time must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                'start_time must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
             )
         payload['scheduled_start_time'] = start_time.isoformat()
 
@@ -3849,7 +3849,7 @@ class Guild(Hashable):
         if end_time:
             if end_time.tzinfo is None:
                 raise ValueError(
-                    'end_time must be an aware datetime. Consider using discord.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
+                    'end_time must be an aware datetime. Consider using discord_self.utils.utcnow() or datetime.datetime.now().astimezone() for local time.'
                 )
             payload['scheduled_end_time'] = end_time.isoformat()
 
@@ -4592,7 +4592,7 @@ class Guild(Hashable):
 
         Getting entries for a specific action: ::
 
-            async for entry in guild.audit_logs(action=discord.AuditLogAction.ban):
+            async for entry in guild.audit_logs(action=discord_self.AuditLogAction.ban):
                 print(f'{entry.user} banned {entry.target}')
 
         Getting entries made by a specific user: ::
@@ -4799,7 +4799,7 @@ class Guild(Hashable):
         -----------
         enabled: :class:`bool`
             Whether to enable the widget for the guild.
-        channel: Optional[:class:`~discord.abc.Snowflake`]
+        channel: Optional[:class:`~discord_self.abc.Snowflake`]
             The new widget channel. ``None`` removes the widget channel.
         reason: Optional[:class:`str`]
             The reason for editing this widget. Shows up on the audit log.
@@ -5453,7 +5453,7 @@ class Guild(Hashable):
         Parameters
         -----------
         typing: :class:`bool`
-            Whether to receive typing events (i.e. :func:`discord.on_typing`).
+            Whether to receive typing events (i.e. :func:`discord_self.on_typing`).
 
             .. note::
 
@@ -5466,7 +5466,7 @@ class Guild(Hashable):
             Whether to populate the thread cache and receive thread events.
         member_updates: :class:`bool`
             Whether to receive member update events
-            (i.e. :func:`discord.on_member_join`, :func:`discord.on_member_update`, and :func:`discord.on_member_remove`).
+            (i.e. :func:`discord_self.on_member_join`, :func:`discord_self.on_member_update`, and :func:`discord_self.on_member_remove`).
 
         Raises
         -------

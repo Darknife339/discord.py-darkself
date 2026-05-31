@@ -43,12 +43,12 @@ def show_version() -> None:
     entries = []
 
     entries.append('- Python v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}'.format(sys.version_info))
-    version_info = discord.version_info
-    entries.append('- discord.py-self v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}'.format(version_info))
+    version_info = discord_self.version_info
+    entries.append('- discord_self.py-self v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}'.format(version_info))
     if version_info.releaselevel != 'final':
-        version = importlib.metadata.version('discord.py-self')
+        version = importlib.metadata.version('discord_self.py-self')
         if version:
-            entries.append(f'    - discord.py-self metadata: v{version}')
+            entries.append(f'    - discord_self.py-self metadata: v{version}')
 
     entries.append(f'    - discord-protos v{protos_version}')
     entries.append(
@@ -125,7 +125,7 @@ var/
 config.py
 """
 
-_cog_template = '''from discord.ext import commands
+_cog_template = '''from discord_self.ext import commands
 import discord_self
 
 class {name}(commands.Cog{attrs}):
@@ -335,7 +335,7 @@ def add_newcog_args(subparser: argparse._SubParsersAction[argparse.ArgumentParse
 
 
 def parse_args() -> Tuple[argparse.ArgumentParser, argparse.Namespace]:
-    parser = argparse.ArgumentParser(prog='discord', description='Tools for helping with discord.py-self')
+    parser = argparse.ArgumentParser(prog='discord', description='Tools for helping with discord_self.py-self')
     parser.add_argument('-v', '--version', action='store_true', help='shows the library version')
     parser.set_defaults(func=core)
 

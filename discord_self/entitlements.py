@@ -436,7 +436,7 @@ class Gift:
     @property
     def url(self) -> str:
         """:class:`str`: Returns the gift's URL."""
-        return f'https://discord.gift/{self.code}'
+        return f'https://discord_self.gift/{self.code}'
 
     @property
     def remaining_uses(self) -> int:

@@ -771,7 +771,7 @@ class Role(Hashable):
 
         A rich interface to help move a role relative to other roles.
 
-        You must have :attr:`~discord.Permissions.manage_roles` to do this,
+        You must have :attr:`~discord_self.Permissions.manage_roles` to do this,
         and you cannot move roles above the client's top role in the guild.
 
         .. versionadded:: 2.1

@@ -50,8 +50,8 @@ import discord_self
 from .errors import *
 
 if TYPE_CHECKING:
-    from discord.state import Channel
-    from discord.threads import Thread
+    from discord_self.state import Channel
+    from discord_self.threads import Thread
 
     from .parameters import Parameter
     from ._types import BotT, _Bot
@@ -98,11 +98,11 @@ def _get_from_guilds(bot: _Bot, getter: str, argument: Any) -> Any:
     return result
 
 
-_utils_get = discord.utils.get
+_utils_get = discord_self.utils.get
 T = TypeVar('T')
 T_co = TypeVar('T_co', covariant=True)
-CT = TypeVar('CT', bound=discord.abc.GuildChannel)
-TT = TypeVar('TT', bound=discord.Thread)
+CT = TypeVar('CT', bound=discord_self.abc.GuildChannel)
+TT = TypeVar('TT', bound=discord_self.Thread)
 
 
 @runtime_checkable
@@ -156,8 +156,8 @@ class IDConverter(Converter[T_co]):
         return _ID_REGEX.match(argument)
 
 
-class ObjectConverter(IDConverter[discord.Object]):
-    """Converts to a :class:`~discord.Object`.
+class ObjectConverter(IDConverter[discord_self.Object]):
+    """Converts to a :class:`~discord_self.Object`.
 
     The argument must follow the valid ID or mention formats (e.g. ``<@80088516616269824>``).
 
@@ -169,7 +169,7 @@ class ObjectConverter(IDConverter[discord.Object]):
     2. Lookup by member, role, or channel mention.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Object:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Object:
         match = self._get_id_match(argument) or re.match(r'<(?:@(?:!|&)?|#)([0-9]{15,20})>$', argument)
 
         if match is None:
@@ -177,11 +177,11 @@ class ObjectConverter(IDConverter[discord.Object]):
 
         result = int(match.group(1))
 
-        return discord.Object(id=result)
+        return discord_self.Object(id=result)
 
 
-class MemberConverter(IDConverter[discord.Member]):
-    """Converts to a :class:`~discord.Member`.
+class MemberConverter(IDConverter[discord_self.Member]):
+    """Converts to a :class:`~discord_self.Member`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -208,7 +208,7 @@ class MemberConverter(IDConverter[discord.Member]):
         the removal of discriminators in an API change.
     """
 
-    async def query_member_named(self, guild: discord.Guild, argument: str) -> Optional[discord.Member]:
+    async def query_member_named(self, guild: discord_self.Guild, argument: str) -> Optional[discord_self.Member]:
         cache = guild._state.member_cache_flags.joined
         username, _, discriminator = argument.rpartition('#')
 
@@ -224,7 +224,7 @@ class MemberConverter(IDConverter[discord.Member]):
             predicate = lambda m: m.name == argument or m.global_name == argument or m.nick == argument
 
         members = await guild.query_members(lookup, limit=100, cache=cache)
-        return discord.utils.find(predicate, members)
+        return discord_self.utils.find(predicate, members)
 
     async def query_member_by_id(self, bot, guild, user_id):
         ws = bot.ws
@@ -234,7 +234,7 @@ class MemberConverter(IDConverter[discord.Member]):
             # So we don't have to wait ~60 seconds for the query to finish
             try:
                 member = await guild.fetch_member(user_id)
-            except discord.HTTPException:
+            except discord_self.HTTPException:
                 return None
 
             if cache:
@@ -247,7 +247,7 @@ class MemberConverter(IDConverter[discord.Member]):
             return None
         return members[0]
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Member:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Member:
         bot = ctx.bot
         match = self._get_id_match(argument) or re.match(r'<@!?([0-9]{15,20})>$', argument)
         guild = ctx.guild
@@ -267,7 +267,7 @@ class MemberConverter(IDConverter[discord.Member]):
             else:
                 result = _get_from_guilds(bot, 'get_member', user_id)
 
-        if not isinstance(result, discord.Member):
+        if not isinstance(result, discord_self.Member):
             if guild is None:
                 raise MemberNotFound(argument)
 
@@ -282,8 +282,8 @@ class MemberConverter(IDConverter[discord.Member]):
         return result
 
 
-class UserConverter(IDConverter[discord.User]):
-    """Converts to a :class:`~discord.User`.
+class UserConverter(IDConverter[discord_self.User]):
+    """Converts to a :class:`~discord_self.User`.
 
     All lookups are via the global user cache.
 
@@ -308,7 +308,7 @@ class UserConverter(IDConverter[discord.User]):
         the removal of discriminators in an API change.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.User:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.User:
         match = self._get_id_match(argument) or re.match(r'<@!?([0-9]{15,20})>$', argument)
         result = None
         state = ctx._state
@@ -319,7 +319,7 @@ class UserConverter(IDConverter[discord.User]):
             if result is None:
                 try:
                     result = await ctx.bot.fetch_user(user_id)
-                except discord.HTTPException:
+                except discord_self.HTTPException:
                     raise UserNotFound(argument) from None
 
             return result  # type: ignore
@@ -335,15 +335,15 @@ class UserConverter(IDConverter[discord.User]):
         else:
             predicate = lambda u: u.name == argument or u.global_name == argument
 
-        result = discord.utils.find(predicate, state._users.values())
+        result = discord_self.utils.find(predicate, state._users.values())
         if result is None:
             raise UserNotFound(argument)
 
         return result
 
 
-class PartialMessageConverter(Converter[discord.PartialMessage]):
-    """Converts to a :class:`discord.PartialMessage`.
+class PartialMessageConverter(Converter[discord_self.PartialMessage]):
+    """Converts to a :class:`discord_self.PartialMessage`.
 
     .. versionadded:: 1.7
 
@@ -366,7 +366,7 @@ class PartialMessageConverter(Converter[discord.PartialMessage]):
         if not match:
             raise MessageNotFound(argument)
         data = match.groupdict()
-        channel_id = discord.utils._get_as_snowflake(data, 'channel_id') or ctx.channel.id
+        channel_id = discord_self.utils._get_as_snowflake(data, 'channel_id') or ctx.channel.id
         message_id = int(data['message_id'])
         guild_id = data.get('guild_id')
         if guild_id is None:
@@ -393,16 +393,16 @@ class PartialMessageConverter(Converter[discord.PartialMessage]):
 
         return ctx.bot.get_channel(channel_id)
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.PartialMessage:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.PartialMessage:
         guild_id, message_id, channel_id = self._get_id_matches(ctx, argument)
         channel = self._resolve_channel(ctx, guild_id, channel_id)
-        if not channel or not isinstance(channel, discord.abc.Messageable):
+        if not channel or not isinstance(channel, discord_self.abc.Messageable):
             raise ChannelNotFound(channel_id)
-        return discord.PartialMessage(channel=channel, id=message_id)
+        return discord_self.PartialMessage(channel=channel, id=message_id)
 
 
-class MessageConverter(IDConverter[discord.Message]):
-    """Converts to a :class:`discord.Message`.
+class MessageConverter(IDConverter[discord_self.Message]):
+    """Converts to a :class:`discord_self.Message`.
 
     .. versionadded:: 1.1
 
@@ -416,24 +416,24 @@ class MessageConverter(IDConverter[discord.Message]):
          Raise :exc:`.ChannelNotFound`, :exc:`.MessageNotFound` or :exc:`.ChannelNotReadable` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Message:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Message:
         guild_id, message_id, channel_id = PartialMessageConverter._get_id_matches(ctx, argument)
         message = ctx.bot._connection._get_message(message_id)
         if message:
             return message
         channel = PartialMessageConverter._resolve_channel(ctx, guild_id, channel_id)
-        if not channel or not isinstance(channel, discord.abc.Messageable):
+        if not channel or not isinstance(channel, discord_self.abc.Messageable):
             raise ChannelNotFound(channel_id)
         try:
             return await channel.fetch_message(message_id)
-        except discord.NotFound:
+        except discord_self.NotFound:
             raise MessageNotFound(argument)
-        except discord.Forbidden:
+        except discord_self.Forbidden:
             raise ChannelNotReadable(channel)  # type: ignore # type-checker thinks channel could be a DMChannel at this point
 
 
-class GuildChannelConverter(IDConverter[discord.abc.GuildChannel]):
-    """Converts to a :class:`~discord.abc.GuildChannel`.
+class GuildChannelConverter(IDConverter[discord_self.abc.GuildChannel]):
+    """Converts to a :class:`~discord_self.abc.GuildChannel`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -451,8 +451,8 @@ class GuildChannelConverter(IDConverter[discord.abc.GuildChannel]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.abc.GuildChannel:
-        return self._resolve_channel(ctx, argument, 'channels', discord.abc.GuildChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.abc.GuildChannel:
+        return self._resolve_channel(ctx, argument, 'channels', discord_self.abc.GuildChannel)
 
     @staticmethod
     def _parse_from_url(argument: str) -> Optional[re.Match[str]]:
@@ -479,13 +479,13 @@ class GuildChannelConverter(IDConverter[discord.abc.GuildChannel]):
             # not a mention
             if guild:
                 iterable: Iterable[CT] = getattr(guild, attribute)
-                result: Optional[CT] = discord.utils.get(iterable, name=argument)
+                result: Optional[CT] = discord_self.utils.get(iterable, name=argument)
             else:
 
                 def check(c):
                     return isinstance(c, type) and c.name == argument
 
-                result = discord.utils.find(check, bot.get_all_channels())  # type: ignore
+                result = discord_self.utils.find(check, bot.get_all_channels())  # type: ignore
         else:
             channel_id = int(match.group(1))
             if guild:
@@ -513,7 +513,7 @@ class GuildChannelConverter(IDConverter[discord.abc.GuildChannel]):
             # not a mention
             if guild:
                 iterable: Iterable[TT] = getattr(guild, attribute)
-                result: Optional[TT] = discord.utils.get(iterable, name=argument)
+                result: Optional[TT] = discord_self.utils.get(iterable, name=argument)
         else:
             thread_id = int(match.group(1))
             if guild:
@@ -525,8 +525,8 @@ class GuildChannelConverter(IDConverter[discord.abc.GuildChannel]):
         return result
 
 
-class TextChannelConverter(IDConverter[discord.TextChannel]):
-    """Converts to a :class:`~discord.TextChannel`.
+class TextChannelConverter(IDConverter[discord_self.TextChannel]):
+    """Converts to a :class:`~discord_self.TextChannel`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -545,12 +545,12 @@ class TextChannelConverter(IDConverter[discord.TextChannel]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.TextChannel:
-        return GuildChannelConverter._resolve_channel(ctx, argument, 'text_channels', discord.TextChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.TextChannel:
+        return GuildChannelConverter._resolve_channel(ctx, argument, 'text_channels', discord_self.TextChannel)
 
 
-class VoiceChannelConverter(IDConverter[discord.VoiceChannel]):
-    """Converts to a :class:`~discord.VoiceChannel`.
+class VoiceChannelConverter(IDConverter[discord_self.VoiceChannel]):
+    """Converts to a :class:`~discord_self.VoiceChannel`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -569,12 +569,12 @@ class VoiceChannelConverter(IDConverter[discord.VoiceChannel]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.VoiceChannel:
-        return GuildChannelConverter._resolve_channel(ctx, argument, 'voice_channels', discord.VoiceChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.VoiceChannel:
+        return GuildChannelConverter._resolve_channel(ctx, argument, 'voice_channels', discord_self.VoiceChannel)
 
 
-class StageChannelConverter(IDConverter[discord.StageChannel]):
-    """Converts to a :class:`~discord.StageChannel`.
+class StageChannelConverter(IDConverter[discord_self.StageChannel]):
+    """Converts to a :class:`~discord_self.StageChannel`.
 
     .. versionadded:: 1.7
 
@@ -592,12 +592,12 @@ class StageChannelConverter(IDConverter[discord.StageChannel]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.StageChannel:
-        return GuildChannelConverter._resolve_channel(ctx, argument, 'stage_channels', discord.StageChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.StageChannel:
+        return GuildChannelConverter._resolve_channel(ctx, argument, 'stage_channels', discord_self.StageChannel)
 
 
-class CategoryChannelConverter(IDConverter[discord.CategoryChannel]):
-    """Converts to a :class:`~discord.CategoryChannel`.
+class CategoryChannelConverter(IDConverter[discord_self.CategoryChannel]):
+    """Converts to a :class:`~discord_self.CategoryChannel`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -616,12 +616,12 @@ class CategoryChannelConverter(IDConverter[discord.CategoryChannel]):
          Raise :exc:`.ChannelNotFound` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.CategoryChannel:
-        return GuildChannelConverter._resolve_channel(ctx, argument, 'categories', discord.CategoryChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.CategoryChannel:
+        return GuildChannelConverter._resolve_channel(ctx, argument, 'categories', discord_self.CategoryChannel)
 
 
-class ThreadConverter(IDConverter[discord.Thread]):
-    """Converts to a :class:`~discord.Thread`.
+class ThreadConverter(IDConverter[discord_self.Thread]):
+    """Converts to a :class:`~discord_self.Thread`.
 
     All lookups are via the local guild.
 
@@ -638,12 +638,12 @@ class ThreadConverter(IDConverter[discord.Thread]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Thread:
-        return GuildChannelConverter._resolve_thread(ctx, argument, 'threads', discord.Thread)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Thread:
+        return GuildChannelConverter._resolve_thread(ctx, argument, 'threads', discord_self.Thread)
 
 
-class ForumChannelConverter(IDConverter[discord.ForumChannel]):
-    """Converts to a :class:`~discord.ForumChannel`.
+class ForumChannelConverter(IDConverter[discord_self.ForumChannel]):
+    """Converts to a :class:`~discord_self.ForumChannel`.
 
     All lookups are via the local guild. If in a DM context, then the lookup
     is done by the global cache.
@@ -661,12 +661,12 @@ class ForumChannelConverter(IDConverter[discord.ForumChannel]):
         Add lookup by channel URL, accessed via "Copy Link" in the Discord client within channels.
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.ForumChannel:
-        return GuildChannelConverter._resolve_channel(ctx, argument, 'forums', discord.ForumChannel)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.ForumChannel:
+        return GuildChannelConverter._resolve_channel(ctx, argument, 'forums', discord_self.ForumChannel)
 
 
-class ColourConverter(Converter[discord.Colour]):
-    """Converts to a :class:`~discord.Colour`.
+class ColourConverter(Converter[discord_self.Colour]):
+    """Converts to a :class:`~discord_self.Colour`.
 
     .. versionchanged:: 1.5
         Add an alias named ColorConverter
@@ -677,7 +677,7 @@ class ColourConverter(Converter[discord.Colour]):
     - ``#<hex>``
     - ``0x#<hex>``
     - ``rgb(<number>, <number>, <number>)``
-    - Any of the ``classmethod`` in :class:`~discord.Colour`
+    - Any of the ``classmethod`` in :class:`~discord_self.Colour`
 
         - The ``_`` in the name can be optionally replaced with spaces.
 
@@ -691,12 +691,12 @@ class ColourConverter(Converter[discord.Colour]):
         Added support for ``rgb`` function and 3-digit hex shortcuts
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Colour:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Colour:
         try:
-            return discord.Colour.from_str(argument)
+            return discord_self.Colour.from_str(argument)
         except ValueError:
             arg = argument.lower().replace(' ', '_')
-            method = getattr(discord.Colour, arg, None)
+            method = getattr(discord_self.Colour, arg, None)
             if arg.startswith('from_') or method is None or not inspect.ismethod(method):
                 raise BadColourArgument(arg)
             return method()
@@ -705,8 +705,8 @@ class ColourConverter(Converter[discord.Colour]):
 ColorConverter = ColourConverter
 
 
-class RoleConverter(IDConverter[discord.Role]):
-    """Converts to a :class:`~discord.Role`.
+class RoleConverter(IDConverter[discord_self.Role]):
+    """Converts to a :class:`~discord_self.Role`.
 
     All lookups are via the local guild. If in a DM context, the converter raises
     :exc:`.NoPrivateMessage` exception.
@@ -721,7 +721,7 @@ class RoleConverter(IDConverter[discord.Role]):
          Raise :exc:`.RoleNotFound` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Role:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Role:
         guild = ctx.guild
         if not guild:
             raise NoPrivateMessage()
@@ -730,22 +730,22 @@ class RoleConverter(IDConverter[discord.Role]):
         if match:
             result = guild.get_role(int(match.group(1)))
         else:
-            result = discord.utils.get(guild._roles.values(), name=argument)
+            result = discord_self.utils.get(guild._roles.values(), name=argument)
 
         if result is None:
             raise RoleNotFound(argument)
         return result
 
 
-class GameConverter(Converter[discord.Game]):
-    """Converts to a :class:`~discord.Game`."""
+class GameConverter(Converter[discord_self.Game]):
+    """Converts to a :class:`~discord_self.Game`."""
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Game:
-        return discord.Game(name=argument)
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Game:
+        return discord_self.Game(name=argument)
 
 
-class InviteConverter(Converter[discord.Invite]):
-    """Converts to a :class:`~discord.Invite`.
+class InviteConverter(Converter[discord_self.Invite]):
+    """Converts to a :class:`~discord_self.Invite`.
 
     This is done via an HTTP request using :meth:`.Bot.fetch_invite`.
 
@@ -753,7 +753,7 @@ class InviteConverter(Converter[discord.Invite]):
          Raise :exc:`.BadInviteArgument` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Invite:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Invite:
         try:
             invite = await ctx.bot.fetch_invite(argument)
             return invite
@@ -761,8 +761,8 @@ class InviteConverter(Converter[discord.Invite]):
             raise BadInviteArgument(argument) from exc
 
 
-class GuildConverter(IDConverter[discord.Guild]):
-    """Converts to a :class:`~discord.Guild`.
+class GuildConverter(IDConverter[discord_self.Guild]):
+    """Converts to a :class:`~discord_self.Guild`.
 
     The lookup strategy is as follows (in order):
 
@@ -772,7 +772,7 @@ class GuildConverter(IDConverter[discord.Guild]):
     .. versionadded:: 1.7
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Guild:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Guild:
         match = self._get_id_match(argument)
         result = None
 
@@ -781,15 +781,15 @@ class GuildConverter(IDConverter[discord.Guild]):
             result = ctx.bot.get_guild(guild_id)
 
         if result is None:
-            result = discord.utils.get(ctx.bot.guilds, name=argument)
+            result = discord_self.utils.get(ctx.bot.guilds, name=argument)
 
             if result is None:
                 raise GuildNotFound(argument)
         return result
 
 
-class EmojiConverter(IDConverter[discord.Emoji]):
-    """Converts to a :class:`~discord.Emoji`.
+class EmojiConverter(IDConverter[discord_self.Emoji]):
+    """Converts to a :class:`~discord_self.Emoji`.
 
     All lookups are done for the local guild first, if available. If that lookup
     fails, then it checks the client's global cache.
@@ -804,7 +804,7 @@ class EmojiConverter(IDConverter[discord.Emoji]):
          Raise :exc:`.EmojiNotFound` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.Emoji:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.Emoji:
         match = self._get_id_match(argument) or re.match(r'<a?:[a-zA-Z0-9\_]{1,32}:([0-9]{15,20})>$', argument)
         result = None
         bot = ctx.bot
@@ -813,10 +813,10 @@ class EmojiConverter(IDConverter[discord.Emoji]):
         if match is None:
             # Try to get the emoji by name. Try local guild first.
             if guild:
-                result = discord.utils.get(guild.emojis, name=argument)
+                result = discord_self.utils.get(guild.emojis, name=argument)
 
             if result is None:
-                result = discord.utils.get(bot.emojis, name=argument)
+                result = discord_self.utils.get(bot.emojis, name=argument)
         else:
             emoji_id = int(match.group(1))
 
@@ -829,8 +829,8 @@ class EmojiConverter(IDConverter[discord.Emoji]):
         return result
 
 
-class PartialEmojiConverter(Converter[discord.PartialEmoji]):
-    """Converts to a :class:`~discord.PartialEmoji`.
+class PartialEmojiConverter(Converter[discord_self.PartialEmoji]):
+    """Converts to a :class:`~discord_self.PartialEmoji`.
 
     This is done by extracting the animated flag, name and ID from the emoji.
 
@@ -838,7 +838,7 @@ class PartialEmojiConverter(Converter[discord.PartialEmoji]):
          Raise :exc:`.PartialEmojiConversionFailure` instead of generic :exc:`.BadArgument`
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.PartialEmoji:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.PartialEmoji:
         match = re.match(r'<(a?):([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>$', argument)
 
         if match:
@@ -846,15 +846,15 @@ class PartialEmojiConverter(Converter[discord.PartialEmoji]):
             emoji_name = match.group(2)
             emoji_id = int(match.group(3))
 
-            return discord.PartialEmoji.with_state(
+            return discord_self.PartialEmoji.with_state(
                 ctx.bot._connection, animated=emoji_animated, name=emoji_name, id=emoji_id
             )
 
         raise PartialEmojiConversionFailure(argument)
 
 
-class GuildStickerConverter(IDConverter[discord.GuildSticker]):
-    """Converts to a :class:`~discord.GuildSticker`.
+class GuildStickerConverter(IDConverter[discord_self.GuildSticker]):
+    """Converts to a :class:`~discord_self.GuildSticker`.
 
     All lookups are done for the local guild first, if available. If that lookup
     fails, then it checks the client's global cache.
@@ -867,7 +867,7 @@ class GuildStickerConverter(IDConverter[discord.GuildSticker]):
     .. versionadded:: 2.0
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.GuildSticker:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.GuildSticker:
         match = self._get_id_match(argument)
         result = None
         bot = ctx.bot
@@ -876,10 +876,10 @@ class GuildStickerConverter(IDConverter[discord.GuildSticker]):
         if match is None:
             # Try to get the sticker by name. Try local guild first.
             if guild:
-                result = discord.utils.get(guild.stickers, name=argument)
+                result = discord_self.utils.get(guild.stickers, name=argument)
 
             if result is None:
-                result = discord.utils.get(bot.stickers, name=argument)
+                result = discord_self.utils.get(bot.stickers, name=argument)
         else:
             sticker_id = int(match.group(1))
 
@@ -892,8 +892,8 @@ class GuildStickerConverter(IDConverter[discord.GuildSticker]):
         return result
 
 
-class ScheduledEventConverter(IDConverter[discord.ScheduledEvent]):
-    """Converts to a :class:`~discord.ScheduledEvent`.
+class ScheduledEventConverter(IDConverter[discord_self.ScheduledEvent]):
+    """Converts to a :class:`~discord_self.ScheduledEvent`.
 
     Lookups are done for the local guild if available. Otherwise, for a DM context,
     lookup is done by the global cache.
@@ -907,7 +907,7 @@ class ScheduledEventConverter(IDConverter[discord.ScheduledEvent]):
     .. versionadded:: 2.0
     """
 
-    async def convert(self, ctx: Context[BotT], argument: str) -> discord.ScheduledEvent:
+    async def convert(self, ctx: Context[BotT], argument: str) -> discord_self.ScheduledEvent:
         guild = ctx.guild
         match = self._get_id_match(argument)
         result = None
@@ -939,10 +939,10 @@ class ScheduledEventConverter(IDConverter[discord.ScheduledEvent]):
             else:
                 # lookup by name
                 if guild:
-                    result = discord.utils.get(guild.scheduled_events, name=argument)
+                    result = discord_self.utils.get(guild.scheduled_events, name=argument)
                 else:
                     for guild in ctx.bot.guilds:
-                        result = discord.utils.get(guild.scheduled_events, name=argument)
+                        result = discord_self.utils.get(guild.scheduled_events, name=argument)
                         if result:
                             break
         if result is None:
@@ -955,7 +955,7 @@ class clean_content(Converter[str]):
     """Converts the argument to mention scrubbed version of
     said content.
 
-    This behaves similarly to :attr:`~discord.Message.clean_content`.
+    This behaves similarly to :attr:`~discord_self.Message.clean_content`.
 
     Attributes
     ------------
@@ -1032,12 +1032,12 @@ class clean_content(Converter[str]):
 
         result = re.sub(r'<(@[!&]?|#)([0-9]{15,20})>', repl, argument)
         if self.escape_markdown:
-            result = discord.utils.escape_markdown(result)
+            result = discord_self.utils.escape_markdown(result)
         elif self.remove_markdown:
-            result = discord.utils.remove_markdown(result)
+            result = discord_self.utils.remove_markdown(result)
 
         # Completely ensure no mentions escape:
-        return discord.utils.escape_mentions(result)
+        return discord_self.utils.escape_mentions(result)
 
 
 class Greedy(List[T]):
@@ -1079,7 +1079,7 @@ class Greedy(List[T]):
         converter = params[0]
 
         args = getattr(converter, '__args__', ())
-        if discord.utils.PY_310 and converter.__class__ is types.UnionType:  # type: ignore
+        if discord_self.utils.PY_310 and converter.__class__ is types.UnionType:  # type: ignore
             converter = Union[args]
 
         origin = getattr(converter, '__origin__', None)
@@ -1231,27 +1231,27 @@ def is_generic_type(tp: Any, *, _GenericAlias: type = _GenericAlias) -> bool:
 
 
 CONVERTER_MAPPING: Dict[type, Any] = {
-    discord.Object: ObjectConverter,
-    discord.Member: MemberConverter,
-    discord.User: UserConverter,
-    discord.Message: MessageConverter,
-    discord.PartialMessage: PartialMessageConverter,
-    discord.TextChannel: TextChannelConverter,
-    discord.Invite: InviteConverter,
-    discord.Guild: GuildConverter,
-    discord.Role: RoleConverter,
-    discord.Game: GameConverter,
-    discord.Colour: ColourConverter,
-    discord.VoiceChannel: VoiceChannelConverter,
-    discord.StageChannel: StageChannelConverter,
-    discord.Emoji: EmojiConverter,
-    discord.PartialEmoji: PartialEmojiConverter,
-    discord.CategoryChannel: CategoryChannelConverter,
-    discord.Thread: ThreadConverter,
-    discord.abc.GuildChannel: GuildChannelConverter,
-    discord.GuildSticker: GuildStickerConverter,
-    discord.ScheduledEvent: ScheduledEventConverter,
-    discord.ForumChannel: ForumChannelConverter,
+    discord_self.Object: ObjectConverter,
+    discord_self.Member: MemberConverter,
+    discord_self.User: UserConverter,
+    discord_self.Message: MessageConverter,
+    discord_self.PartialMessage: PartialMessageConverter,
+    discord_self.TextChannel: TextChannelConverter,
+    discord_self.Invite: InviteConverter,
+    discord_self.Guild: GuildConverter,
+    discord_self.Role: RoleConverter,
+    discord_self.Game: GameConverter,
+    discord_self.Colour: ColourConverter,
+    discord_self.VoiceChannel: VoiceChannelConverter,
+    discord_self.StageChannel: StageChannelConverter,
+    discord_self.Emoji: EmojiConverter,
+    discord_self.PartialEmoji: PartialEmojiConverter,
+    discord_self.CategoryChannel: CategoryChannelConverter,
+    discord_self.Thread: ThreadConverter,
+    discord_self.abc.GuildChannel: GuildChannelConverter,
+    discord_self.GuildSticker: GuildStickerConverter,
+    discord_self.ScheduledEvent: ScheduledEventConverter,
+    discord_self.ForumChannel: ForumChannelConverter,
 }
 
 
@@ -1264,7 +1264,7 @@ async def _actual_conversion(ctx: Context[BotT], converter: Any, argument: str, 
     except AttributeError:
         pass
     else:
-        if module is not None and (module.startswith('discord.') and not module.endswith('converter')):
+        if module is not None and (module.startswith('discord_self.') and not module.endswith('converter')):
             converter = CONVERTER_MAPPING.get(converter, converter)
 
     try:

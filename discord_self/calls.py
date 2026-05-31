@@ -305,7 +305,7 @@ class PrivateCall:
     ) -> ConnectReturn:
         """|coro|
 
-        Connects to voice and creates a :class:`~discord.VoiceClient` to establish
+        Connects to voice and creates a :class:`~discord_self.VoiceClient` to establish
         your connection to the voice server.
 
         There is an alias of this called :attr:`join`.
@@ -318,22 +318,22 @@ class PrivateCall:
             Whether the bot should automatically attempt
             a reconnect if a part of the handshake fails
             or the gateway goes down.
-        cls: Type[:class:`~discord.VoiceProtocol`]
-            A type that subclasses :class:`~discord.VoiceProtocol` to connect with.
-            Defaults to :class:`~discord.VoiceClient`.
+        cls: Type[:class:`~discord_self.VoiceProtocol`]
+            A type that subclasses :class:`~discord_self.VoiceProtocol` to connect with.
+            Defaults to :class:`~discord_self.VoiceClient`.
 
         Raises
         -------
         asyncio.TimeoutError
             Could not connect to the voice channel in time.
-        ~discord.ClientException
+        ~discord_self.ClientException
             You are already connected to a voice channel.
-        ~discord.opus.OpusNotLoaded
+        ~discord_self.opus.OpusNotLoaded
             The opus library has not been loaded.
 
         Returns
         --------
-        :class:`~discord.VoiceProtocol`
+        :class:`~discord_self.VoiceProtocol`
             A voice client that is fully connected to the voice server.
         """
         return await self.channel.connect(timeout=timeout, reconnect=reconnect, cls=cls, ring=False)
@@ -348,7 +348,7 @@ class PrivateCall:
     ) -> ConnectReturn:
         """|coro|
 
-        Connects to voice and creates a :class:`~discord.VoiceClient` to establish
+        Connects to voice and creates a :class:`~discord_self.VoiceClient` to establish
         your connection to the voice server.
 
         This is an alias of :attr:`connect`.
@@ -361,22 +361,22 @@ class PrivateCall:
             Whether the bot should automatically attempt
             a reconnect if a part of the handshake fails
             or the gateway goes down.
-        cls: Type[:class:`~discord.VoiceProtocol`]
-            A type that subclasses :class:`~discord.VoiceProtocol` to connect with.
-            Defaults to :class:`~discord.VoiceClient`.
+        cls: Type[:class:`~discord_self.VoiceProtocol`]
+            A type that subclasses :class:`~discord_self.VoiceProtocol` to connect with.
+            Defaults to :class:`~discord_self.VoiceClient`.
 
         Raises
         -------
         asyncio.TimeoutError
             Could not connect to the voice channel in time.
-        ~discord.ClientException
+        ~discord_self.ClientException
             You are already connected to a voice channel.
-        ~discord.opus.OpusNotLoaded
+        ~discord_self.opus.OpusNotLoaded
             The opus library has not been loaded.
 
         Returns
         --------
-        :class:`~discord.VoiceProtocol`
+        :class:`~discord_self.VoiceProtocol`
             A voice client that is fully connected to the voice server.
         """
         return await self.connect(timeout=timeout, reconnect=reconnect, cls=cls)

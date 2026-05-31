@@ -233,7 +233,7 @@ def parameter(
     .. code-block:: python3
 
         @bot.command()
-        async def wave(ctx, to: discord.User = commands.parameter(default=lambda ctx: ctx.author)):
+        async def wave(ctx, to: discord_self.User = commands.parameter(default=lambda ctx: ctx.author)):
             await ctx.send(f'Hello {to.mention} :wave:')
 
     Parameters

@@ -636,7 +636,7 @@ class MessageSnapshot(Hashable):
 
 
 class MessageReference:
-    """Represents a reference to a :class:`~discord.Message`.
+    """Represents a reference to a :class:`~discord_self.Message`.
 
     .. versionadded:: 1.5
 
@@ -715,20 +715,20 @@ class MessageReference:
         fail_if_not_exists: bool = True,
         type: MessageReferenceType = MessageReferenceType.reply,
     ) -> Self:
-        """Creates a :class:`MessageReference` from an existing :class:`~discord.Message`.
+        """Creates a :class:`MessageReference` from an existing :class:`~discord_self.Message`.
 
         .. versionadded:: 1.6
 
         Parameters
         ----------
-        message: :class:`~discord.Message`
+        message: :class:`~discord_self.Message`
             The message to be converted into a reference.
         fail_if_not_exists: :class:`bool`
             Whether the referenced message should raise :class:`HTTPException`
             if the message no longer exists or Discord could not fetch the message.
 
             .. versionadded:: 1.7
-        type: :class:`~discord.MessageReferenceType`
+        type: :class:`~discord_self.MessageReferenceType`
             The type of message reference this is.
 
             .. versionadded:: 2.1
@@ -750,7 +750,7 @@ class MessageReference:
 
     @property
     def cached_message(self) -> Optional[Message]:
-        """Optional[:class:`~discord.Message`]: The cached message, if found in the internal message cache."""
+        """Optional[:class:`~discord_self.Message`]: The cached message, if found in the internal message cache."""
         return self._state and self._state._get_message(self.message_id)
 
     @property
@@ -1115,12 +1115,12 @@ class PartialMessage(Hashable):
             If provided, the number of seconds to wait in the background
             before deleting the message we just edited. If the deletion fails,
             then it is silently ignored.
-        allowed_mentions: Optional[:class:`~discord.AllowedMentions`]
+        allowed_mentions: Optional[:class:`~discord_self.AllowedMentions`]
             Controls the mentions being processed in this message. If this is
-            passed, then the object is merged with :attr:`~discord.Client.allowed_mentions`.
+            passed, then the object is merged with :attr:`~discord_self.Client.allowed_mentions`.
             The merging behaviour only overrides attributes that have been explicitly passed
-            to the object, otherwise it uses the attributes set in :attr:`~discord.Client.allowed_mentions`.
-            If no object is passed at all then the defaults given by :attr:`~discord.Client.allowed_mentions`
+            to the object, otherwise it uses the attributes set in :attr:`~discord_self.Client.allowed_mentions`.
+            If no object is passed at all then the defaults given by :attr:`~discord_self.Client.allowed_mentions`
             are used instead.
 
             .. versionadded:: 1.4
@@ -1393,7 +1393,7 @@ class PartialMessage(Hashable):
 
         Creates a public thread from this message.
 
-        You must have :attr:`~discord.Permissions.create_public_threads` in order to
+        You must have :attr:`~discord_self.Permissions.create_public_threads` in order to
         create a public thread from a message.
 
         The channel this message belongs in must be a :class:`TextChannel`.
@@ -1610,9 +1610,9 @@ class PartialMessage(Hashable):
 
         Raises
         --------
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             Sending the message failed.
-        ~discord.Forbidden
+        ~discord_self.Forbidden
             You do not have the proper permissions to send the message.
         ValueError
             The ``files`` list is not of the appropriate size
@@ -1648,9 +1648,9 @@ class PartialMessage(Hashable):
 
         Raises
         --------
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             Sending the message failed.
-        ~discord.Forbidden
+        ~discord_self.Forbidden
             You do not have the proper permissions to send the message, or this is not a valid greet context.
 
         Returns
@@ -1671,7 +1671,7 @@ class PartialMessage(Hashable):
 
         Raises
         ------
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             Ending the poll failed.
 
         Returns
@@ -1690,7 +1690,7 @@ class PartialMessage(Hashable):
         fail_if_not_exists: bool = True,
         type: MessageReferenceType = MessageReferenceType.reply,
     ) -> MessageReference:
-        """Creates a :class:`~discord.MessageReference` from the current message.
+        """Creates a :class:`~discord_self.MessageReference` from the current message.
 
         .. versionadded:: 1.6
 
@@ -1708,7 +1708,7 @@ class PartialMessage(Hashable):
 
         Returns
         ---------
-        :class:`~discord.MessageReference`
+        :class:`~discord_self.MessageReference`
             The reference to this message.
         """
 
@@ -1728,7 +1728,7 @@ class PartialMessage(Hashable):
 
         Parameters
         ----------
-        destination: :class:`~discord.abc.Messageable`
+        destination: :class:`~discord_self.abc.Messageable`
             The channel to forward this message to.
         fail_if_not_exists: :class:`bool`
             Whether replying using the message reference should raise :class:`HTTPException`
@@ -1736,7 +1736,7 @@ class PartialMessage(Hashable):
 
         Raises
         ------
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             Forwarding the message failed.
 
         Returns
@@ -1806,7 +1806,7 @@ class Message(PartialMessage, Hashable):
     call: Optional[:class:`CallMessage`]
         The call that the message refers to. This is only applicable to messages of type
         :attr:`MessageType.call`.
-    reference: Optional[:class:`~discord.MessageReference`]
+    reference: Optional[:class:`~discord_self.MessageReference`]
         The message that this message references. This is only applicable to
         message replies (:attr:`MessageType.reply`), crossposted messages created by
         a followed channel integration, forwarded messages, and messages of type:
@@ -2751,12 +2751,12 @@ class Message(PartialMessage, Hashable):
             If provided, the number of seconds to wait in the background
             before deleting the message we just edited. If the deletion fails,
             then it is silently ignored.
-        allowed_mentions: Optional[:class:`~discord.AllowedMentions`]
+        allowed_mentions: Optional[:class:`~discord_self.AllowedMentions`]
             Controls the mentions being processed in this message. If this is
-            passed, then the object is merged with :attr:`~discord.Client.allowed_mentions`.
+            passed, then the object is merged with :attr:`~discord_self.Client.allowed_mentions`.
             The merging behaviour only overrides attributes that have been explicitly passed
-            to the object, otherwise it uses the attributes set in :attr:`~discord.Client.allowed_mentions`.
-            If no object is passed at all then the defaults given by :attr:`~discord.Client.allowed_mentions`
+            to the object, otherwise it uses the attributes set in :attr:`~discord_self.Client.allowed_mentions`.
+            If no object is passed at all then the defaults given by :attr:`~discord_self.Client.allowed_mentions`
             are used instead.
 
             .. versionadded:: 1.4
@@ -2895,7 +2895,7 @@ class Message(PartialMessage, Hashable):
 
             If ``limit`` is passed alongside this parameter, this parameter will serve as a "preferred commands" list.
             This means that the endpoint will return the found commands + up to ``limit`` more, if available.
-        application: Optional[:class:`~discord.abc.Snowflake`]
+        application: Optional[:class:`~discord_self.abc.Snowflake`]
             Whether to return this application's commands. Always set to DM recipient in a private channel context.
         with_applications: :class:`bool`
             Whether to include applications in the response.
@@ -2909,9 +2909,9 @@ class Message(PartialMessage, Hashable):
             The limit was not greater than or equal to 0.
         HTTPException
             Getting the commands failed.
-        ~discord.Forbidden
+        ~discord_self.Forbidden
             You do not have permissions to get the commands.
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             The request to get the commands failed.
 
         Yields

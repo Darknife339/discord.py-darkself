@@ -551,7 +551,7 @@ class HeadersContext:
             f'https://cordapi.dolfi.es/api/v2/properties/{type.lower()}',
             proxy=proxy,
             proxy_auth=_resolve_proxy_auth(proxy_auth),
-            headers={'User-Agent': f'discord.py-self/{__version__} curl_cffi/{curl_cffi.__version__}'},  # type: ignore
+            headers={'User-Agent': f'discord_self.py-self/{__version__} curl_cffi/{curl_cffi.__version__}'},  # type: ignore
         ) as resp:
             if not resp.ok:
                 raise HTTPException(resp, 'Failed to fetch properties from info API')

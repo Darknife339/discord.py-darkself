@@ -359,13 +359,13 @@ class RawThreadDeleteEvent(_RawReprMixin):
     ----------
     thread_id: :class:`int`
         The ID of the thread that was deleted.
-    thread_type: :class:`discord.ChannelType`
+    thread_type: :class:`discord_self.ChannelType`
         The channel type of the deleted thread.
     guild_id: :class:`int`
         The ID of the guild the thread was deleted in.
     parent_id: :class:`int`
         The ID of the channel the thread belonged to.
-    thread: Optional[:class:`discord.Thread`]
+    thread: Optional[:class:`discord_self.Thread`]
         The thread, if it could be found in the internal cache.
     """
 
@@ -426,7 +426,7 @@ class RawMemberRemoveEvent(_RawReprMixin):
 
     Attributes
     ----------
-    user: Union[:class:`discord.User`, :class:`discord.Member`]
+    user: Union[:class:`discord_self.User`, :class:`discord_self.Member`]
         The user that left the guild.
     guild_id: :class:`int`
         The ID of the guild the user left.

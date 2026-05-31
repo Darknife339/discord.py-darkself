@@ -304,4 +304,4 @@ class Template:
 
         .. versionadded:: 2.0
         """
-        return f'https://discord.new/{self.code}'
+        return f'https://discord_self.new/{self.code}'

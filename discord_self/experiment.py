@@ -1114,10 +1114,10 @@ class ApexExperiment:
 
         Parameters
         -----------
-        unit: Union[:class:`~discord.abc.Snowflake`, :class:`~discord.Client`]
+        unit: Union[:class:`~discord_self.abc.Snowflake`, :class:`~discord_self.Client`]
             The unit to get the assignment for.
             Can be a variety of different objects depending on the unit type.
-            Supports a :class:`~discord.Client` for installation-based experiments.
+            Supports a :class:`~discord_self.Client` for installation-based experiments.
 
         Returns
         -------

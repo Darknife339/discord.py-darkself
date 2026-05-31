@@ -398,7 +398,7 @@ class Cog(metaclass=CogMeta):
 
     @_cog_special_method
     def cog_check(self, ctx: Context[BotT]) -> MaybeCoro[bool]:
-        """A special method that registers as a :func:`~discord.ext.commands.check`
+        """A special method that registers as a :func:`~discord_self.ext.commands.check`
         for every command and subcommand in this cog.
 
         This function **can** be a coroutine and must take a sole parameter,

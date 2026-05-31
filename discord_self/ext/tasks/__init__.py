@@ -110,7 +110,7 @@ class SleepHandle:
     def __init__(self, dt: datetime.datetime, *, loop: asyncio.AbstractEventLoop) -> None:
         self.loop: asyncio.AbstractEventLoop = loop
         self.future: asyncio.Future[None] = loop.create_future()
-        relative_delta = discord.utils.compute_timedelta(dt)
+        relative_delta = discord_self.utils.compute_timedelta(dt)
         self.handle = loop.call_later(relative_delta, self._wrapped_set_result, self.future)
 
     @staticmethod
@@ -120,7 +120,7 @@ class SleepHandle:
 
     def recalculate(self, dt: datetime.datetime) -> None:
         self.handle.cancel()
-        relative_delta = discord.utils.compute_timedelta(dt)
+        relative_delta = discord_self.utils.compute_timedelta(dt)
         self.handle: asyncio.TimerHandle = self.loop.call_later(relative_delta, self._wrapped_set_result, self.future)
 
     def wait(self) -> asyncio.Future[Any]:
@@ -160,8 +160,8 @@ class Loop(Generic[LF]):
         self._injected = None
         self._valid_exception = (
             OSError,
-            discord.GatewayNotFound,
-            discord.ConnectionClosed,
+            discord_self.GatewayNotFound,
+            discord_self.ConnectionClosed,
             aiohttp.ClientError,
             asyncio.TimeoutError,
         )
@@ -235,7 +235,7 @@ class Loop(Generic[LF]):
                                 'Sleeping until %s again to correct clock'
                             ),
                             self.coro.__qualname__,
-                            discord.utils.utcnow(),
+                            discord_self.utils.utcnow(),
                             self._next_iteration,
                             self._next_iteration,
                         )
@@ -474,7 +474,7 @@ class Loop(Generic[LF]):
         r"""Adds exception types to be handled during the reconnect logic.
 
         By default the exception types handled are those handled by
-        :meth:`discord.Client.connect`\, which includes a lot of internet disconnection
+        :meth:`discord_self.Client.connect`\, which includes a lot of internet disconnection
         errors.
 
         This function is useful if you're interacting with a 3rd party library that
@@ -555,7 +555,7 @@ class Loop(Generic[LF]):
         """A decorator that registers a coroutine to be called before the loop starts running.
 
         This is useful if you want to wait for some bot state before the loop starts,
-        such as :meth:`discord.Client.wait_until_ready`.
+        such as :meth:`discord_self.Client.wait_until_ready`.
 
         The coroutine must take no arguments (except ``self`` in a class context).
 
@@ -817,7 +817,7 @@ def loop(
     reconnect: :class:`bool`
         Whether to handle errors and restart the task
         using an exponential back-off algorithm similar to the
-        one used in :meth:`discord.Client.connect`.
+        one used in :meth:`discord_self.Client.connect`.
     name: Optional[:class:`str`]
         The name to assign to the internal task. By default
         it is assigned a name based off of the callable name

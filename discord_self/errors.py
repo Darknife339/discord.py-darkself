@@ -62,7 +62,7 @@ __all__ = (
 
 
 class DiscordException(Exception):
-    """Base exception class for discord.py
+    """Base exception class for discord_self.py
 
     Ideally speaking, this could be caught to handle any exceptions raised from this library.
     """

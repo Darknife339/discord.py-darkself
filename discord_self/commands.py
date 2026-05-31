@@ -74,10 +74,10 @@ class ApplicationCommand(Protocol):
 
     The following implement this ABC:
 
-    - :class:`~discord.UserCommand`
-    - :class:`~discord.MessageCommand`
-    - :class:`~discord.SlashCommand`
-    - :class:`~discord.SubCommand`
+    - :class:`~discord_self.UserCommand`
+    - :class:`~discord_self.MessageCommand`
+    - :class:`~discord_self.SlashCommand`
+    - :class:`~discord_self.SubCommand`
 
     .. versionadded:: 2.0
 
@@ -91,13 +91,13 @@ class ApplicationCommand(Protocol):
         The command's name.
     description: :class:`str`
         The command's description, if any.
-    type: :class:`~discord.ApplicationCommandType`
+    type: :class:`~discord_self.ApplicationCommandType`
         The type of application command.
     dm_permission: :class:`bool`
         Whether the command is enabled in DMs.
     nsfw: :class:`bool`
         Whether the command is marked NSFW and only available in NSFW channels.
-    application: Optional[:class:`~discord.IntegrationApplication`]
+    application: Optional[:class:`~discord_self.IntegrationApplication`]
         The application this command belongs to.
         Only available if requested.
     application_id: :class:`int`
@@ -150,7 +150,7 @@ class ApplicationCommand(Protocol):
 
     @property
     def guild(self) -> Optional[Guild]:
-        """Optional[:class:`~discord.Guild`]: Returns the guild this command is registered to
+        """Optional[:class:`~discord_self.Guild`]: Returns the guild this command is registered to
         if it exists.
         """
         return self._state._get_guild(self.guild_id)
@@ -177,7 +177,7 @@ class ApplicationCommand(Protocol):
 
     @property
     def default_member_permissions(self) -> Optional[Permissions]:
-        """Optional[:class:`~discord.Permissions`]: The default permissions required to use this command.
+        """Optional[:class:`~discord_self.Permissions`]: The default permissions required to use this command.
 
         .. note::
             This may be overrided on a guild-by-guild basis.
@@ -843,7 +843,7 @@ class SubCommand(SlashMixin):
 
     @property
     def guild(self) -> Optional[Guild]:
-        """Optional[:class:`~discord.Guild`]: Returns the guild this command is registered to
+        """Optional[:class:`~discord_self.Guild`]: Returns the guild this command is registered to
         if it exists.
         """
         return self._parent.guild

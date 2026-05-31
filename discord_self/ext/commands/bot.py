@@ -64,8 +64,8 @@ if TYPE_CHECKING:
 
     import importlib.machinery
 
-    from discord.message import Message
-    from discord.abc import User
+    from discord_self.message import Message
+    from discord_self.abc import User
     from ._types import (
         _Bot,
         BotT,
@@ -74,7 +74,7 @@ if TYPE_CHECKING:
         ContextT,
         MaybeAwaitableFunc,
     )
-    from discord.client import _ClientOptions
+    from discord_self.client import _ClientOptions
 
     _Prefix = Union[Iterable[str], str]
     _PrefixCallable = MaybeAwaitableFunc[[BotT, Message], _Prefix]
@@ -216,7 +216,7 @@ class BotBase(GroupMixin[None]):
         for event in self.extra_events.get(ev, []):
             self._schedule_event(event, ev, *args, **kwargs)  # type: ignore
 
-    @discord.utils.copy_doc(discord.Client.close)
+    @discord_self.utils.copy_doc(discord_self.Client.close)
     async def close(self) -> None:
         for extension in tuple(self.__extensions):
             try:
@@ -391,12 +391,12 @@ class BotBase(GroupMixin[None]):
         if len(data) == 0:
             return True
 
-        return await discord.utils.async_all(f(ctx) for f in data)  # type: ignore
+        return await discord_self.utils.async_all(f(ctx) for f in data)  # type: ignore
 
     async def is_owner(self, user: User, /) -> bool:
         """|coro|
 
-        Checks if a :class:`~discord.User` or :class:`~discord.Member` is the owner of
+        Checks if a :class:`~discord_self.User` or :class:`~discord_self.Member` is the owner of
         this bot.
 
         .. versionchanged:: 2.0
@@ -656,7 +656,7 @@ class BotBase(GroupMixin[None]):
 
         if existing is not None:
             if not override:
-                raise discord.ClientException(f'Cog named {cog_name!r} already loaded')
+                raise discord_self.ClientException(f'Cog named {cog_name!r} already loaded')
             await self.remove_cog(cog_name)
 
         cog = await cog._inject(self, override=override)
@@ -1018,7 +1018,7 @@ class BotBase(GroupMixin[None]):
 
         Parameters
         -----------
-        message: :class:`discord.Message`
+        message: :class:`discord_self.Message`
             The message context to get the prefix of.
 
         Returns
@@ -1031,7 +1031,7 @@ class BotBase(GroupMixin[None]):
 
         if callable(prefix):
             # self will be a Bot or AutoShardedBot
-            ret = await discord.utils.maybe_coroutine(prefix, self, message)
+            ret = await discord_self.utils.maybe_coroutine(prefix, self, message)
 
         if not isinstance(ret, str):
             try:
@@ -1091,7 +1091,7 @@ class BotBase(GroupMixin[None]):
 
         Parameters
         -----------
-        message: :class:`discord.Message`
+        message: :class:`discord_self.Message`
             The message to get the invocation context from.
         cls
             The factory class that will be used to create the context.
@@ -1125,7 +1125,7 @@ class BotBase(GroupMixin[None]):
                 # if the context class' __init__ consumes something from the view this
                 # will be wrong.  That seems unreasonable though.
                 if message.content.startswith(tuple(prefix)):
-                    invoked_prefix = discord.utils.find(view.skip_string, prefix)
+                    invoked_prefix = discord_self.utils.find(view.skip_string, prefix)
                 else:
                     return ctx
 
@@ -1209,7 +1209,7 @@ class BotBase(GroupMixin[None]):
 
         Parameters
         -----------
-        message: :class:`discord.Message`
+        message: :class:`discord_self.Message`
             The message to process commands for.
         """
         if message.author.bot:
@@ -1223,11 +1223,11 @@ class BotBase(GroupMixin[None]):
         await self.process_commands(message)
 
 
-class Bot(BotBase, discord.Client):
+class Bot(BotBase, discord_self.Client):
     """Represents a Discord bot.
 
-    This class is a subclass of :class:`discord.Client` and as a result
-    anything that you can do with a :class:`discord.Client` you can do with
+    This class is a subclass of :class:`discord_self.Client` and as a result
+    anything that you can do with a :class:`discord_self.Client` you can do with
     this bot.
 
     This class also subclasses :class:`.GroupMixin` to provide the functionality
@@ -1247,7 +1247,7 @@ class Bot(BotBase, discord.Client):
         The command prefix is what the message content must contain initially
         to have a command invoked. This prefix could either be a string to
         indicate what the prefix should be, or a callable that takes in the bot
-        as its first parameter and :class:`discord.Message` as its second
+        as its first parameter and :class:`discord_self.Message` as its second
         parameter and returns the prefix. This is to facilitate "dynamic"
         command prefixes. This callable can be either a regular function or
         a coroutine.

@@ -245,8 +245,8 @@ class ActivityAssets:
         Discord CDN, media proxy, application, Twitch, YouTube, and Spotify assets
         are able to be used directly in activity assets by providing their URLs or URIs.
 
-        In order to provide an arbitrary image link, you must use :meth:`~discord.Client.proxy_external_application_assets`
-        or :meth:`~discord.Application.proxy_external_assets` to retrieved a proxied URL from Discord.
+        In order to provide an arbitrary image link, you must use :meth:`~discord_self.Client.proxy_external_application_assets`
+        or :meth:`~discord_self.Application.proxy_external_assets` to retrieved a proxied URL from Discord.
         Otherwise, the image will not render in clients.
 
     Parameters
@@ -1212,7 +1212,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityTimestamps.start` instead.
+            Use :attr:`~discord_self.ActivityTimestamps.start` instead.
         """
         return self.timestamps.start
 
@@ -1223,7 +1223,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityTimestamps.end` instead.
+            Use :attr:`~discord_self.ActivityTimestamps.end` instead.
         """
         return self.timestamps.end
 
@@ -1234,7 +1234,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityAssets.large_image` instead.
+            Use :attr:`~discord_self.ActivityAssets.large_image` instead.
         """
         return self.assets.large_image.url if self.assets.large_image else None
 
@@ -1245,7 +1245,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityAssets.small_image` instead.
+            Use :attr:`~discord_self.ActivityAssets.small_image` instead.
         """
         return self.assets.small_image.url if self.assets.small_image else None
 
@@ -1256,7 +1256,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityAssets.large_text` instead.
+            Use :attr:`~discord_self.ActivityAssets.large_text` instead.
         """
 
         return self.assets.large_text
@@ -1268,7 +1268,7 @@ class Activity(BaseActivity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityAssets.small_text` instead.
+            Use :attr:`~discord_self.ActivityAssets.small_text` instead.
         """
         return self.assets.small_text
 
@@ -1327,7 +1327,7 @@ class Activity(BaseActivity):
         action_type: :class:`ActivityActionType`
             The type of secret to fetch. Only :attr:`ActivityActionType.join` and
             :attr:`ActivityActionType.spectate` are valid.
-        message: Optional[:class:`discord.Message`]
+        message: Optional[:class:`discord_self.Message`]
             The message that contains the rich presence invite. Required if you do
             not meet public party requirements.
 
@@ -1648,7 +1648,7 @@ class Spotify(Activity):
 
         .. deprecated:: 2.1
 
-            Use :attr:`~discord.ActivityParty.id` instead.
+            Use :attr:`~discord_self.ActivityParty.id` instead.
         """
         return self.party.id or ''
 

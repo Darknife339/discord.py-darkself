@@ -38,7 +38,7 @@ from .context import Context
 if TYPE_CHECKING:
     from typing_extensions import Self
 
-    from discord.message import Message
+    from discord_self.message import Message
 
 __all__ = (
     'BucketType',

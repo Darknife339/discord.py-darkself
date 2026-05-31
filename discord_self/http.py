@@ -899,7 +899,7 @@ class HTTPClient:
                     log_fmt = '%s %s with %s has returned %s.'
                     log_params = [method, url, kwargs.get('data'), response.status_code]
                     if trace_id is not None:
-                        log_fmt += '\nTrace URL: https://datadog.discord.tools/apm/traces?query=@http.x_client_trace_id:"%s"&showAllSpans=true'
+                        log_fmt += '\nTrace URL: https://datadog.discord_self.tools/apm/traces?query=@http.x_client_trace_id:"%s"&showAllSpans=true'
                         log_params.append(trace_id)
                     _log.debug(log_fmt, *log_params)
 

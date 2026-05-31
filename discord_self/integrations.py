@@ -350,7 +350,7 @@ class StreamIntegration(Integration):
 
 
 class BotIntegration(Integration):
-    """Represents a bot integration on discord.
+    """Represents a bot integration on discord_self.
 
     .. versionadded:: 2.0
 

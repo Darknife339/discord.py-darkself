@@ -74,7 +74,7 @@ except ImportError:
 class Flag:
     """Represents a flag parameter for :class:`FlagConverter`.
 
-    The :func:`~discord.ext.commands.flag` function helps
+    The :func:`~discord_self.ext.commands.flag` function helps
     create these flag objects, but it is not necessary to
     do so. These cannot be constructed manually.
 

@@ -144,7 +144,7 @@ class GatewayRatelimiter:
                 await asyncio.sleep(delta)
 
 
-class KeepAliveHandler:  # Inspired by enhanced-discord.py/Gnome
+class KeepAliveHandler:  # Inspired by enhanced-discord_self.py/Gnome
     HEARTBEAT_VERSION = 27
     UPDATE_TIME_SPEND_INTERVAL_SECONDS = 30 * 60
 

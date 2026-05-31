@@ -397,7 +397,7 @@ class SyncWebhookMessage(Message):
     This allows you to edit or delete a message sent by your
     webhook.
 
-    This inherits from :class:`discord.Message` with changes to
+    This inherits from :class:`discord_self.Message` with changes to
     :meth:`edit` and :meth:`delete` to work.
 
     .. versionadded:: 2.0
@@ -960,13 +960,13 @@ class SyncWebhook(BaseWebhook):
             Controls the mentions being processed in this message.
 
             .. versionadded:: 1.4
-        thread: :class:`~discord.abc.Snowflake`
+        thread: :class:`~discord_self.abc.Snowflake`
             The thread to send this message to.
 
             .. versionadded:: 2.0
         thread_name: :class:`str`
             The thread name to create with this webhook if the webhook belongs
-            to a :class:`~discord.ForumChannel`. Note that this is mutually
+            to a :class:`~discord_self.ForumChannel`. Note that this is mutually
             exclusive with the ``thread`` parameter, as this will create a
             new thread with the given name.
 
@@ -1075,7 +1075,7 @@ class SyncWebhook(BaseWebhook):
         return msg
 
     def fetch_message(self, id: int, /, *, thread: Snowflake = MISSING) -> SyncWebhookMessage:
-        """Retrieves a single :class:`~discord.SyncWebhookMessage` owned by this webhook.
+        """Retrieves a single :class:`~discord_self.SyncWebhookMessage` owned by this webhook.
 
         .. versionadded:: 2.0
 
@@ -1083,23 +1083,23 @@ class SyncWebhook(BaseWebhook):
         ------------
         id: :class:`int`
             The message ID to look for.
-        thread: :class:`~discord.abc.Snowflake`
+        thread: :class:`~discord_self.abc.Snowflake`
             The thread to look in.
 
         Raises
         --------
-        ~discord.NotFound
+        ~discord_self.NotFound
             The specified message was not found.
-        ~discord.Forbidden
+        ~discord_self.Forbidden
             You do not have the permissions required to get a message.
-        ~discord.HTTPException
+        ~discord_self.HTTPException
             Retrieving the message failed.
         ValueError
             There was no token associated with this webhook.
 
         Returns
         --------
-        :class:`~discord.SyncWebhookMessage`
+        :class:`~discord_self.SyncWebhookMessage`
             The message asked for.
         """
 
@@ -1157,7 +1157,7 @@ class SyncWebhook(BaseWebhook):
         allowed_mentions: :class:`AllowedMentions`
             Controls the mentions being processed in this message.
             See :meth:`.abc.Messageable.send` for more information.
-        thread: :class:`~discord.abc.Snowflake`
+        thread: :class:`~discord_self.abc.Snowflake`
             The thread the webhook message belongs to.
 
             .. versionadded:: 2.0
@@ -1216,7 +1216,7 @@ class SyncWebhook(BaseWebhook):
         ------------
         message_id: :class:`int`
             The message ID to delete.
-        thread: :class:`~discord.abc.Snowflake`
+        thread: :class:`~discord_self.abc.Snowflake`
             The thread the webhook message belongs to.
 
             .. versionadded:: 2.0

@@ -80,7 +80,7 @@ class PartialEmoji(_EmojiTag, AssetMixin):
 
         .. describe:: str(x)
 
-            Returns the emoji rendered for discord.
+            Returns the emoji rendered for discord_self.
 
     Attributes
     -----------
