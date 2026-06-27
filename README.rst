@@ -1,68 +1,58 @@
-# discord-py-darkself
-A modern, easy-to-use, feature-rich, and async-ready API wrapper for Discord's user API, specifically modified for hassle-free integration alongside the official Discord bot library.
-## ⚡ The Problem & The Solution
-### **The Problem:**
-Normally, you cannot install both discord.py (for official bots) and discord-py-self (for self-bots) in the same Python environment. Both libraries claim the discord namespace, leading to import collisions, broken dependencies, and forcing you to use separate virtual environments or processes.
-### **The Solution:**
-**discord-py-darkself** solves this by completely isolating its namespace.
-Every internal and external import has been renamed from discord to discord_self (including discord_self.ext.commands, etc.).
-Now, you can seamlessly run **both** regular bots and self-bots in the exact same Python script or environment without any conflicts.
-## 🚀 How to Use
-Instead of importing discord, simply use discord_self and discord_self.ext:
-```
-import discord_self
-from discord_self.ext import commands
+discord-py-darkself
+===================
 
-bot = commands.Bot(command_prefix='!', self_bot=True)
+A modern, easy-to-use, feature-rich, and async-ready API wrapper for Discord's user API written in Python.
 
-@bot.event
-async def on_ready():
-    print(f'Logged on as self-bot: {bot.user} (ID: {bot.user.id})')
+About the Project
+-----------------
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
+**discord-py-darkself** is a customized fork of the `discord.py-self` library. 
 
-bot.run('YOUR_ACCOUNT_TOKEN_HERE')
+The primary feature of this fork is the complete isolation of its namespace. In this version, the standard ``discord`` package namespace and all its internal/external imports have been renamed to ``discord_self``.
 
+This allows you to install and use this library concurrently alongside the official, upstream ``discord.py`` library (used for regular bot accounts) within the same Python environment without experiencing any naming conflicts or dependency collisions.
 
-```
-### 🤝 Coexistence Example (The Magic Part)
-Here is how you can run a standard bot and a self-bot in the same environment:
-```
-import discord       # Official discord.py library
-import discord_self  # This fork (discord-py-darkself)
+How to Use
+----------
 
-# Both can now be used in the same project without naming collisions!
-print(discord.__version__)
-print(discord_self.__version__)
+Instead of using the standard ``discord`` import, use ``discord_self`` and ``discord_self.ext`` for commands and tasks:
 
+.. code:: py
 
-```
-## 📥 Installation
+    import discord_self
+    from discord_self.ext import commands
+
+    bot = commands.Bot(command_prefix='!', self_bot=True)
+
+    @bot.event
+    async def on_ready():
+        print(f'Logged on as {bot.user} (ID: {bot.user.id})')
+
+    @bot.command()
+    async def ping(ctx):
+        await ctx.send('pong')
+
+    bot.run('YOUR_ACCOUNT_TOKEN_HERE')
+
+Installation
+------------
+
 **Python 3.10 or higher is required.**
-### **Standard Installation (PyPI)**
-The easiest way to install the library is directly via PyPI:
-```
-pip install discord-py-darkself
 
+You can install the library directly from your GitHub repository using ``pip``:
 
-```
-### **From GitHub (Development version)**
-If you want the latest updates directly from the repository:
-```
-pip install git+https://github.com/Darknife339/discord.py-darkself.git
+.. code:: sh
 
+    pip install git+https://github.com/Darknife339/discord.py-darkself.git
 
-```
-### **Local / Editable Installation**
-If you are developing or want to modify the library locally:
-```
-git clone https://github.com/Darknife339/discord.py-darkself.git
-cd discord.py-darkself
-pip install -e .
+If you have cloned the repository locally and wish to install it in editable mode for development:
 
+.. code:: sh
 
-```
-## ⚠️ Disclaimer
-Automating user accounts (self-botting) is against the **Discord Terms of Service (ToS)**. This library is a proof of concept and is intended strictly for educational and research purposes. The author of this fork assumes no responsibility for any account terminations, bans, or penalties incurred while using this software. Use it entirely at your own risk.
+    cd discord.py-darkself
+    pip install -e .
+
+Disclaimer
+----------
+
+Automating user accounts (self-botting) is against the Discord Terms of Service (ToS). This library is a proof of concept and is intended strictly for educational and research purposes. The author of this fork assumes no responsibility for any account terminations or penalties incurred while using this software. Use it entirely at your own risk.
